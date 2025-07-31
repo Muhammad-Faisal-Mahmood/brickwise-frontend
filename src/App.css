@@ -1,0 +1,39 @@
+@import "tailwindcss/base";
+@import "tailwindcss/components";
+@import "tailwindcss/utilities";
+
+* {
+  font-family: "Poppins", sans-serif;
+}
+
+/* Light mode (default) */
+body {
+   background-color: rgb(249, 249, 249);
+  @apply  transition-colors duration-500 ease-out;
+   
+}
+
+/* Dark mode */
+.dark body {
+  @apply bg-black transition-colors duration-500 ease-out; /* or bg-black or any dark color you like */
+}
+
+.nav-link {
+  transition: color 0.2s ease;
+ 
+}
+
+.header-container {
+  contain: strict;
+}
+
+.custom-search .ant-input {
+  padding-top: 8px;
+  padding-bottom: 8px;
+}
+
+.custom-search .ant-input-search-button {
+  height: auto;           /* let it fit the input */
+  padding-top: 11.5px;
+  padding-bottom: 11.5px;
+}
