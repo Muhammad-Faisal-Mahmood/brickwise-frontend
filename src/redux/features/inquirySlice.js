@@ -85,8 +85,8 @@ export const addResponse = createAsyncThunk(
 const inquirySlice = createSlice({
   name: "inquiries",
   initialState: {
-    inquiries: [], // list of all inquiries
-    selectedInquiry: null, // single inquiry details for chat
+    inquiries: [],
+    selectedInquiry: null,
     loadingList: false,
     loadingDetail: false,
     addingResponse: false,
@@ -100,6 +100,9 @@ const inquirySlice = createSlice({
     },
     clearSelectedInquiry(state) {
       state.selectedInquiry = null;
+    },
+    setSelectedInquiryFromSocket(state, action) {
+      state.selectedInquiry = action.payload;
     },
   },
   extraReducers: (builder) => {
@@ -176,6 +179,9 @@ const inquirySlice = createSlice({
   },
 });
 
-export const { clearInquiryErrors, clearSelectedInquiry } =
-  inquirySlice.actions;
+export const {
+  clearInquiryErrors,
+  clearSelectedInquiry,
+  setSelectedInquiryFromSocket,
+} = inquirySlice.actions;
 export default inquirySlice.reducer;

@@ -99,24 +99,7 @@ const Inquiries = () => {
         {selectedInquiry ? (
           <>
             {/* Chat panel */}
-            <InquiryChatPanel
-              currentUser={user}
-              inquiry={selectedInquiry}
-              onSend={(msg) => {
-                if (user?.role === "DEALER") {
-                  dispatch(
-                    addResponse({
-                      inquiryId: selectedInquiry.dealerId,
-                      message: msg,
-                    })
-                  );
-                } else {
-                  dispatch(
-                    addResponse({ inquiryId: selectedInquiry.id, message: msg })
-                  );
-                }
-              }}
-            />
+            <InquiryChatPanel currentUser={user} inquiry={selectedInquiry} />
 
             {/* Dealer & Property cards side by side */}
             <div className="flex flex-col md:flex-row gap-4">

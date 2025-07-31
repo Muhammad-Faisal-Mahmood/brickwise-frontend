@@ -11,6 +11,7 @@
   },
   "dependencies": {
     "@reduxjs/toolkit": "^2.8.2",
+    "@stomp/stompjs": "^7.1.1",
     "antd": "^5.26.6",
     "axios": "^1.11.0",
     "dayjs": "^1.11.13",
@@ -22,10 +23,12 @@
     "react-router-dom": "^7.7.0",
     "react-slick": "^0.30.3",
     "slick-carousel": "^1.8.1",
+    "sockjs-client": "^1.6.1",
     "yup": "^1.6.1"
   },
   "devDependencies": {
     "@eslint/js": "^9.13.0",
+    "@rollup/plugin-inject": "^5.0.5",
     "@types/react": "^18.3.12",
     "@types/react-dom": "^18.3.1",
     "@vitejs/plugin-react": "^4.3.3",
@@ -35,7 +38,9 @@
     "eslint-plugin-react-hooks": "^5.0.0",
     "eslint-plugin-react-refresh": "^0.4.14",
     "globals": "^15.11.0",
+    "globalthis": "^1.0.4",
     "postcss": "^8.4.49",
+    "rollup-plugin-inject": "^3.0.2",
     "tailwindcss": "^3.4.15"
   }
 }
