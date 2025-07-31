@@ -22,6 +22,7 @@ import DealerLayout from "../layouts/DealerLayout";
 import DealerDashboardProfile from "../pages/dealer/DealerDashboardProfile";
 import DealerCreatedProperties from "../pages/dealer/DealerCreatedProperties";
 import CreateProperty from "../pages/dealer/DealerCreateProperty";
+import ContactUs from "../pages/visitor/ContactUs";
 
 const AppRoutes = () => {
   return (
@@ -34,6 +35,7 @@ const AppRoutes = () => {
             <Route path="listings/:id" element={<ListingDetails />} />
             <Route path="dealers" element={<Dealers />} />
             <Route path="dealers/:id" element={<DealerProfile />} />
+            <Route path="contact-us" element={<ContactUs />} />
             <Route
               path="profile"
               element={

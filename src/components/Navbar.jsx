@@ -76,7 +76,7 @@ const Navbar = ({ navItems, drawerVisible, setDrawerVisible }) => {
   return (
     <>
       {contextHolder}
-      <nav className="hidden md:flex relative space-x-4 z-50 h-full items-center">
+      <nav className="hidden lg:flex relative space-x-4 z-50 h-full items-center">
         {navItems.map((item) => {
           const isActive = activeTab === item.name;
           return (
@@ -114,7 +114,7 @@ const Navbar = ({ navItems, drawerVisible, setDrawerVisible }) => {
       </nav>
 
       {/* Mobile Hamburger Icon */}
-      <div className="md:hidden">
+      <div className="lg:hidden">
         <MenuOutlined
           onClick={() => setDrawerVisible(true)}
           style={{ fontSize: "24px", color: "#1f2937" }}
@@ -122,7 +122,7 @@ const Navbar = ({ navItems, drawerVisible, setDrawerVisible }) => {
       </div>
 
       {/* Login */}
-      <div className="hidden md:flex items-center gap-2">
+      <div className="hidden lg:flex items-center gap-2">
         {auth.isAuthenticated && auth.user ? (
           <Dropdown overlay={menu} placement="bottomRight" arrow>
             <Avatar

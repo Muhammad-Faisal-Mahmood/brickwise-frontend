@@ -2,7 +2,12 @@ import React from "react";
 import { Carousel, Image } from "antd";
 import { FullscreenOutlined } from "@ant-design/icons";
 
-const MediaCarousel = ({ media }) => {
+const MediaCarousel = ({
+  media,
+  arrows = true,
+  dots = true,
+  preview = true,
+}) => {
   const getType = (url) => {
     const ext = url.split(".").pop().toLowerCase();
     if (["mp4", "webm", "ogg"].includes(ext)) {
@@ -19,16 +24,24 @@ const MediaCarousel = ({ media }) => {
 
   return (
     <div className="relative">
-      <Carousel arrows autoplay={{ dotDuration: true }} arrowSize={48}>
+      <Carousel
+        arrows={arrows}
+        dots={dots}
+        autoplay={{ dotDuration: true }}
+        arrowSize={48}
+      >
         {processedMedia.map((item, idx) =>
           item.type === "image" ? (
-            <div key={idx} className="w-full h-full">
+            <div
+              key={idx}
+              className="w-full  h-full overflow-hidden rounded-xl"
+            >
               <Image
                 width={"100%"}
                 src={item.url}
                 alt={`media-${idx}`}
                 className="w-full h-full object-cover rounded-xl"
-                preview={{ mask: <FullscreenOutlined /> }}
+                preview={preview ? { mask: <FullscreenOutlined /> } : false}
               />
             </div>
           ) : (

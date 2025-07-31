@@ -8,6 +8,7 @@ const navItems = [
   { name: "Listings", url: "/listings" },
   { name: "Dealers", url: "/dealers" },
   { name: "Estimator", url: "/cost-estimator" },
+  { name: "Contact us", url: "/contact-us" },
 ];
 
 const Header = () => {
