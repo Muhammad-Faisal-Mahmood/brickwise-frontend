@@ -142,7 +142,7 @@ const ContactUs = () => {
                           value="other"
                           className="!px-4 !py-2 !rounded-full border border-gray-300 dark:border-gray-600 hover:border-primary-brandColor1 checked:!border-primary-brandColor1 checked:!text-primary-brandColor1"
                         >
-                          Something else
+                          Others
                         </Radio>
                       </Radio.Group>
                     )}

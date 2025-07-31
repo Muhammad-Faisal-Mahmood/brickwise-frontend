@@ -25,13 +25,13 @@ const BecomeDealer = () => {
           </div>
 
           {/* Subheading & CTA */}
-          <p className="order-3 md:order-none mt-5 md:mt-0 text-lg leading-6 text-primary-subHeading dark:text-dark-subHeading mb-6">
+          <p className="order-3 md:order-none md:w-[70%] w-full mt-5 md:mt-0 text-lg leading-6 text-primary-subHeading dark:text-dark-subHeading mb-6">
             Join our platform to effortlessly manage your property listings,
             connect with potential buyers, and expand your reach.
           </p>
           <Button
             type="primary"
-            className="order-4 md:order-none text-white text-base sm:text-lg md:text-xl font-bold py-3 sm:py-4 px-6 rounded-md shadow-lg transition duration-300 ease-in-out"
+            className="order-4 md:order-none text-white text-base sm:text-sm md:text-base font-medium py-3 sm:py-4 px-6 rounded-md shadow-lg transition duration-300 ease-in-out"
             onClick={() => navigate("register-dealer")}
           >
             Register Yourself as a Dealer

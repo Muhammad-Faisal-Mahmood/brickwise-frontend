@@ -36,9 +36,9 @@ const Filters = ({ handleFilterChange, applyFilters }) => {
           onChange={(value) => handleFilterChange("minPrice", value)}
           min={0}
           formatter={(value) =>
-            `PKR ${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+            value ? `PKR ${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ",") : ""
           }
-          parser={(value) => value.replace(/PKR\s?|(,*)/g, "")}
+          parser={(value) => (value ? value.replace(/PKR\s?|(,*)/g, "") : "")}
         />
         <InputNumber
           placeholder="Max Price"
@@ -46,9 +46,9 @@ const Filters = ({ handleFilterChange, applyFilters }) => {
           onChange={(value) => handleFilterChange("maxPrice", value)}
           min={0}
           formatter={(value) =>
-            `PKR ${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+            value ? `PKR ${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ",") : ""
           }
-          parser={(value) => value.replace(/PKR\s?|(,*)/g, "")}
+          parser={(value) => (value ? value.replace(/PKR\s?|(,*)/g, "") : "")}
         />
 
         <Button type="primary" onClick={applyFilters}>
