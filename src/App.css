@@ -37,3 +37,28 @@ body {
   padding-top: 11.5px;
   padding-bottom: 11.5px;
 }
+
+
+/* Mobile sidebar improvements */
+@media (max-width: 767px) {
+  .ant-layout-sider {
+    position: fixed !important;
+    height: 100vh;
+    left: 0;
+    top: 0;
+    z-index: 999;
+  }
+  
+  .ant-layout-sider + .ant-layout {
+    margin-left: 60px; /* Account for fixed sidebar */
+  }
+  
+  .ant-menu-item {
+    padding: 0 12px !important;
+    text-align: center;
+  }
+  
+  .ant-menu-title-content {
+    display: none; /* Hide text on mobile */
+  }
+}

@@ -154,7 +154,7 @@ const ContactMessages = () => {
         </div>
         <Select
           allowClear
-          placeholder="Filter by query type"
+          placeholder="Query Filters"
           onChange={(val) => {
             setPage(1);
             setQueryType(val || "");

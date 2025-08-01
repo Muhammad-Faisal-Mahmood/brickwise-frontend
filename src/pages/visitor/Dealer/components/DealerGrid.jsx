@@ -12,7 +12,7 @@ const DealerGrid = ({ dealers }) => {
             city={dealer.city}
             rating={dealer.rating}
             reviewsCount={dealer.reviewsCount}
-            imgUrl={dealer.imgUrl}
+            imgUrl={dealer.profileImageUrl}
             phone={dealer.phone}
           />
         ))}

@@ -72,7 +72,9 @@ const Filters = ({ handleFilterChange, applyFilters }) => {
       {/* New line: sliders */}
       <div className="flex flex-wrap gap-6 justify-center">
         <div className="flex flex-col items-center">
-          <span className="text-xs">Price Range</span>
+          <span className="text-xs md:text-base text-primary-heading dark:text-dark-heading">
+            Price Range
+          </span>
           <Slider
             range
             min={0}
@@ -85,7 +87,9 @@ const Filters = ({ handleFilterChange, applyFilters }) => {
         </div>
 
         <div className="flex flex-col items-center">
-          <span className="text-xs">Size Range (sq ft)</span>
+          <span className="text-xs md:text-base text-primary-heading dark:text-dark-heading">
+            Size Range (sq ft)
+          </span>
           <Slider
             range
             min={0}
