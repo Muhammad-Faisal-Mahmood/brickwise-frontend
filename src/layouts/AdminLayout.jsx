@@ -10,6 +10,8 @@ import {
   BulbOutlined,
   IdcardOutlined,
   HomeOutlined,
+  LockOutlined,
+  MessageOutlined,
 } from "@ant-design/icons";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
@@ -69,6 +71,13 @@ const AdminLayout = () => {
               label: <Link to="/admin/users">Users</Link>,
             },
             {
+              key: "/admin/blacklisted-dealers",
+              icon: <LockOutlined />,
+              label: (
+                <Link to="/admin/blacklisted-dealers">Blacklisted Dealers</Link>
+              ),
+            },
+            {
               key: "/admin/dealers",
               icon: <ShopOutlined />,
               label: <Link to="/admin/dealers">Approved Dealers</Link>,
@@ -84,6 +93,11 @@ const AdminLayout = () => {
               key: "/admin/properties",
               icon: <HomeOutlined />, // add: import { HomeOutlined } from "@ant-design/icons"
               label: <Link to="/admin/properties">Properties</Link>,
+            },
+            {
+              key: "/admin/contact-messages",
+              icon: <MessageOutlined />,
+              label: <Link to="/admin/contact-messages">Contact Messages</Link>,
             },
             {
               key: "/admin/profile",

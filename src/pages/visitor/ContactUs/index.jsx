@@ -41,11 +41,12 @@ const ContactUs = () => {
   };
 
   const media = [
-    "https://images.unsplash.com/photo-1479839672679-a46483c0e7c8?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MjB8fHJlYWwlMjBlc3RhdGV8ZW58MHx8MHx8fDA%3D",
-    "https://images.unsplash.com/photo-1560440021-33f9b867899d?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTEwfHxyZWFsJTIwZXN0YXRlfGVufDB8fDB8fHww",
-    "https://plus.unsplash.com/premium_photo-1676823570630-be7b7e1ce1bb?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NDl8fHJlYWwlMjBlc3RhdGV8ZW58MHx8MHx8fDA%3D",
-    "https://images.unsplash.com/photo-1492321936769-b49830bc1d1e?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NjN8fHJlYWwlMjBlc3RhdGV8ZW58MHx8MHx8fDA%3D",
-    "https://plus.unsplash.com/premium_photo-1672423156257-9a2bc5e1f480?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8ODF8fHJlYWwlMjBlc3RhdGV8ZW58MHx8MHx8fDA%3D",
+    "https://images.unsplash.com/photo-1479839672679-a46483c0e7c8?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MjJ8fHJlYWwlMjBlc3RhdGV8ZW58MHx8MHx8fDA%3D",
+    "https://images.unsplash.com/photo-1723796481136-efc319ccb5e6?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTA2fHxyZWFsJTIwZXN0YXRlfGVufDB8fDB8fHww",
+    "https://images.unsplash.com/photo-1583847268964-b28dc8f51f92?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTU5fHxyZWFsJTIwZXN0YXRlfGVufDB8fDB8fHww",
+    "https://plus.unsplash.com/premium_photo-1681530700755-e8079add58ef?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTQ1fHxyZWFsJTIwZXN0YXRlfGVufDB8fDB8fHww",
+    "https://plus.unsplash.com/premium_photo-1671269941569-7841144ee4e0?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NDF8fHJlYWwlMjBlc3RhdGV8ZW58MHx8MHx8fDA%3D",
+    "https://images.unsplash.com/photo-1565953536805-beb35e81d3c3?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTQ3fHxyZWFsJTIwZXN0YXRlfGVufDB8fDB8fHww",
   ];
 
   return (

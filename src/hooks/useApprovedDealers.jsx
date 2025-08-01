@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import axiosInstance from "../api/axiosInstance";
 
-const useApprovedDealers = (page, size, keyword) => {
+const useApprovedDealers = (page, size, keyword, refreshKey) => {
   const [dealers, setDealers] = useState([]);
   const [totalElements, setTotalElements] = useState(0);
   const [loading, setLoading] = useState(false);
@@ -24,7 +24,7 @@ const useApprovedDealers = (page, size, keyword) => {
       }
     };
     fetchDealers();
-  }, [page, size, keyword]);
+  }, [page, size, keyword, refreshKey]);
 
   return { dealers, totalElements, loading, error };
 };

@@ -23,6 +23,8 @@ import DealerDashboardProfile from "../pages/dealer/DealerDashboardProfile";
 import DealerCreatedProperties from "../pages/dealer/DealerCreatedProperties";
 import CreateProperty from "../pages/dealer/DealerCreateProperty";
 import ContactUs from "../pages/visitor/ContactUs";
+import ContactMessages from "../pages/admin/ContactMessages";
+import BlacklistedDealers from "../pages/admin/BlacklistedDealers";
 
 const AppRoutes = () => {
   return (
@@ -72,6 +74,11 @@ const AppRoutes = () => {
             <Route path="dealer-registries" element={<DealerRegistries />} />
             <Route path="profile" element={<Profile />} />
             <Route path="properties" element={<Properties />} />
+            <Route path="contact-messages" element={<ContactMessages />} />
+            <Route
+              path="blacklisted-dealers"
+              element={<BlacklistedDealers />}
+            />
           </Route>
 
           <Route
