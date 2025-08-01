@@ -85,30 +85,54 @@ const Filters = ({ handleFilterChange, applyFilters, resetFilters }) => {
   const formatSize = (value) =>
     value >= 1000 ? `${(value / 1000).toFixed(1)}K` : value.toString();
 
+  const [activeKey, setActiveKey] = useState(["1"]); // default open
+
+  const isOpen = activeKey.includes("1");
+
   return (
-    <Card className="mx-auto max-w-7xl mb-8 shadow-lg">
-      <Collapse defaultActiveKey={["1"]} expandIconPosition="right" ghost>
+    <Card
+      className={`mx-auto w-full mb-8 shadow-lg transition-all duration-300 ${
+        !isOpen ? "zero-padding" : ""
+      }`}
+    >
+      <Collapse
+        activeKey={activeKey}
+        onChange={setActiveKey}
+        expandIconPosition="right"
+        ghost
+        className={
+          !isOpen
+            ? "zero-padding transition-all duration-300"
+            : "transition-all duration-300"
+        }
+      >
         <Panel
           header={
             <div className="flex items-center gap-2">
               <FilterOutlined className="text-primary-brandColor1" />
-              <Text className="text-lg font-semibold text-primary-heading dark:text-dark-heading">
+              <Text
+                className={`text-lg font-semibold transition-all duration-200 text-primary-heading dark:text-dark-heading ${
+                  isOpen ? "hidden sm:block" : ""
+                }`}
+              >
                 Filter Properties
               </Text>
             </div>
           }
           key="1"
           extra={
-            <Button
-              icon={<ClearOutlined />}
-              onClick={(e) => {
-                e.stopPropagation();
-                handleReset();
-              }}
-              className="text-primary-subHeading hover:text-primary-brandColor1"
-            >
-              Clear All
-            </Button>
+            isOpen && (
+              <Button
+                icon={<ClearOutlined />}
+                onClick={(e) => {
+                  e.stopPropagation();
+                  handleReset();
+                }}
+                className="text-primary-subHeading hover:text-primary-brandColor1"
+              >
+                Clear All
+              </Button>
+            )
           }
         >
           <div className="space-y-6">
@@ -177,10 +201,10 @@ const Filters = ({ handleFilterChange, applyFilters, resetFilters }) => {
             {/* Sliders */}
             <Row gutter={[32, 16]}>
               <Col xs={24} md={12}>
-                <Text className="text-sm font-medium text-primary-heading dark:text-dark-heading">
+                <Text className="text-sm  font-medium  text-primary-heading dark:text-dark-heading">
                   Price Range (PKR)
                 </Text>
-                <div className="flex justify-between text-xs text-primary-subHeading dark:text-dark-subHeading">
+                <div className="flex mt-3 justify-between text-xs text-primary-subHeading dark:text-dark-subHeading">
                   <span>{formatPrice(priceRange[0])}</span>
                   <span>{formatPrice(priceRange[1])}</span>
                 </div>
@@ -194,10 +218,10 @@ const Filters = ({ handleFilterChange, applyFilters, resetFilters }) => {
                 />
               </Col>
               <Col xs={24} md={12}>
-                <Text className="text-sm font-medium text-primary-heading dark:text-dark-heading">
+                <Text className="text-sm  font-medium text-primary-heading dark:text-dark-heading">
                   Size Range (sq ft)
                 </Text>
-                <div className="flex justify-between text-xs text-primary-subHeading dark:text-dark-subHeading">
+                <div className="flex justify-between mt-3 text-xs text-primary-subHeading dark:text-dark-subHeading">
                   <span>{formatSize(sizeRange[0])}</span>
                   <span>{formatSize(sizeRange[1])} sq ft</span>
                 </div>

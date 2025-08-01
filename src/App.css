@@ -71,3 +71,27 @@ body {
 .hide-scrollbar::-webkit-scrollbar {
   display: none;                /* Chrome, Safari, Opera */
 }
+
+.ant-card-body {
+  transition: padding 0.3s ease-in-out;
+}
+
+.ant-collapse-item {
+  transition: padding 0.3s ease-in-out;
+}
+
+.ant-collapse-content-box {
+  transition: padding 0.3s ease-in-out;
+}
+
+.zero-padding .ant-card-body {
+  padding: 0 !important;
+}
+
+.zero-padding .ant-collapse-item {
+  padding: 0 !important;
+}
+
+.zero-padding .ant-collapse-content-box {
+  padding: 0 !important;
+}
