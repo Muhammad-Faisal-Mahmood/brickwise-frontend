@@ -1,112 +1,266 @@
-import { InputNumber, Button, Checkbox, Input, Slider } from "antd";
+import {
+  InputNumber,
+  Button,
+  Checkbox,
+  Input,
+  Slider,
+  Row,
+  Col,
+  Card,
+  Typography,
+  Collapse,
+} from "antd";
 import React, { useState } from "react";
+import { FilterOutlined, ClearOutlined } from "@ant-design/icons";
 
-const Filters = ({ handleFilterChange, applyFilters }) => {
+const { Text } = Typography;
+const { Panel } = Collapse;
+
+const Filters = ({ handleFilterChange, applyFilters, resetFilters }) => {
   const [priceRange, setPriceRange] = useState([0, 1000000]);
   const [sizeRange, setSizeRange] = useState([0, 10000]);
+  const [inputs, setInputs] = useState({
+    location: "",
+    type: "",
+    bedrooms: null,
+    bathrooms: null,
+    floors: null,
+  });
+  const [checkboxStates, setCheckboxStates] = useState({
+    newConstruction: null,
+    petFriendly: null,
+    swimmingPool: null,
+  });
+
+  // Handlers
+  const handleInputChange = (field, value) => {
+    setInputs((prev) => ({ ...prev, [field]: value }));
+    handleFilterChange(field, value || null);
+  };
 
   const handlePriceChange = (value) => {
     setPriceRange(value);
-    handleFilterChange("minPrice", value[0]);
-    handleFilterChange("maxPrice", value[1]);
+    handleFilterChange("minPrice", value[0] === 0 ? null : value[0]);
+    handleFilterChange("maxPrice", value[1] === 1000000 ? null : value[1]);
   };
 
   const handleSizeChange = (value) => {
     setSizeRange(value);
-    handleFilterChange("minSize", value[0]);
-    handleFilterChange("maxSize", value[1]);
+    handleFilterChange("minSize", value[0] === 0 ? null : value[0]);
+    handleFilterChange("maxSize", value[1] === 10000 ? null : value[1]);
   };
 
-  return (
-    <div className="mx-auto max-w-6xl px-4 mb-6 space-y-4">
-      {/* Top row: inputs & checkboxes */}
-      <div className="flex flex-wrap gap-4 justify-center">
-        <Input
-          placeholder="Location"
-          style={{ width: 140 }}
-          onChange={(e) => handleFilterChange("location", e.target.value)}
-        />
-        <Input
-          placeholder="Property Type"
-          style={{ width: 140 }}
-          onChange={(e) => handleFilterChange("type", e.target.value)}
-        />
-        <InputNumber
-          placeholder="Bedrooms"
-          style={{ width: 100 }}
-          min={0}
-          onChange={(v) => handleFilterChange("bedrooms", v)}
-        />
-        <InputNumber
-          placeholder="Bathrooms"
-          style={{ width: 100 }}
-          min={0}
-          onChange={(v) => handleFilterChange("bathrooms", v)}
-        />
-        <InputNumber
-          placeholder="Floors"
-          style={{ width: 100 }}
-          min={0}
-          onChange={(v) => handleFilterChange("floors", v)}
-        />
+  const handleCheckboxChange = (field, checked) => {
+    const newValue = checked ? true : null;
+    setCheckboxStates((prev) => ({ ...prev, [field]: newValue }));
+    handleFilterChange(field, newValue);
+  };
 
-        <Checkbox
-          onChange={(e) =>
-            handleFilterChange("newConstruction", e.target.checked)
+  const handleReset = () => {
+    // Reset local states
+    setPriceRange([0, 1000000]);
+    setSizeRange([0, 10000]);
+    setInputs({
+      location: "",
+      type: "",
+      bedrooms: null,
+      bathrooms: null,
+      floors: null,
+    });
+    setCheckboxStates({
+      newConstruction: null,
+      petFriendly: null,
+      swimmingPool: null,
+    });
+    if (resetFilters) resetFilters();
+  };
+
+  // Format helpers
+  const formatPrice = (value) =>
+    value >= 1000000
+      ? `${(value / 1000000).toFixed(1)}M`
+      : value >= 1000
+      ? `${(value / 1000).toFixed(0)}K`
+      : value.toString();
+  const formatSize = (value) =>
+    value >= 1000 ? `${(value / 1000).toFixed(1)}K` : value.toString();
+
+  return (
+    <Card className="mx-auto max-w-7xl mb-8 shadow-lg">
+      <Collapse defaultActiveKey={["1"]} expandIconPosition="right" ghost>
+        <Panel
+          header={
+            <div className="flex items-center gap-2">
+              <FilterOutlined className="text-primary-brandColor1" />
+              <Text className="text-lg font-semibold text-primary-heading dark:text-dark-heading">
+                Filter Properties
+              </Text>
+            </div>
+          }
+          key="1"
+          extra={
+            <Button
+              icon={<ClearOutlined />}
+              onClick={(e) => {
+                e.stopPropagation();
+                handleReset();
+              }}
+              className="text-primary-subHeading hover:text-primary-brandColor1"
+            >
+              Clear All
+            </Button>
           }
         >
-          New Construction
-        </Checkbox>
-        <Checkbox
-          onChange={(e) => handleFilterChange("petFriendly", e.target.checked)}
-        >
-          Pet Friendly
-        </Checkbox>
-        <Checkbox
-          onChange={(e) => handleFilterChange("swimmingPool", e.target.checked)}
-        >
-          Swimming Pool
-        </Checkbox>
-      </div>
+          <div className="space-y-6">
+            {/* Inputs */}
+            <Row gutter={[16, 16]}>
+              <Col xs={24} sm={12} md={8} lg={6}>
+                <Text className="text-sm font-medium text-primary-heading dark:text-dark-heading">
+                  Location
+                </Text>
+                <Input
+                  value={inputs.location}
+                  placeholder="Enter location"
+                  onChange={(e) =>
+                    handleInputChange("location", e.target.value)
+                  }
+                />
+              </Col>
+              <Col xs={24} sm={12} md={8} lg={6}>
+                <Text className="text-sm font-medium text-primary-heading dark:text-dark-heading">
+                  Property Type
+                </Text>
+                <Input
+                  value={inputs.type}
+                  placeholder="Enter type"
+                  onChange={(e) => handleInputChange("type", e.target.value)}
+                />
+              </Col>
+              <Col xs={24} sm={8} md={8} lg={4}>
+                <Text className="text-sm font-medium text-primary-heading dark:text-dark-heading">
+                  Bedrooms
+                </Text>
+                <InputNumber
+                  className="w-full"
+                  min={0}
+                  max={10}
+                  value={inputs.bedrooms}
+                  onChange={(v) => handleInputChange("bedrooms", v ?? null)}
+                />
+              </Col>
+              <Col xs={24} sm={8} md={8} lg={4}>
+                <Text className="text-sm font-medium text-primary-heading dark:text-dark-heading">
+                  Bathrooms
+                </Text>
+                <InputNumber
+                  className="w-full"
+                  min={0}
+                  max={10}
+                  value={inputs.bathrooms}
+                  onChange={(v) => handleInputChange("bathrooms", v ?? null)}
+                />
+              </Col>
+              <Col xs={24} sm={8} md={8} lg={4}>
+                <Text className="text-sm font-medium text-primary-heading dark:text-dark-heading">
+                  Floors
+                </Text>
+                <InputNumber
+                  className="w-full"
+                  min={0}
+                  max={20}
+                  value={inputs.floors}
+                  onChange={(v) => handleInputChange("floors", v ?? null)}
+                />
+              </Col>
+            </Row>
 
-      {/* New line: sliders */}
-      <div className="flex flex-wrap gap-6 justify-center">
-        <div className="flex flex-col items-center">
-          <span className="text-xs md:text-base text-primary-heading dark:text-dark-heading">
-            Price Range
-          </span>
-          <Slider
-            range
-            min={0}
-            max={1000000}
-            step={5000}
-            value={priceRange}
-            onChange={handlePriceChange}
-            style={{ width: 200 }}
-          />
-        </div>
+            {/* Sliders */}
+            <Row gutter={[32, 16]}>
+              <Col xs={24} md={12}>
+                <Text className="text-sm font-medium text-primary-heading dark:text-dark-heading">
+                  Price Range (PKR)
+                </Text>
+                <div className="flex justify-between text-xs text-primary-subHeading dark:text-dark-subHeading">
+                  <span>{formatPrice(priceRange[0])}</span>
+                  <span>{formatPrice(priceRange[1])}</span>
+                </div>
+                <Slider
+                  range
+                  min={0}
+                  max={1000000}
+                  step={10000}
+                  value={priceRange}
+                  onChange={handlePriceChange}
+                />
+              </Col>
+              <Col xs={24} md={12}>
+                <Text className="text-sm font-medium text-primary-heading dark:text-dark-heading">
+                  Size Range (sq ft)
+                </Text>
+                <div className="flex justify-between text-xs text-primary-subHeading dark:text-dark-subHeading">
+                  <span>{formatSize(sizeRange[0])}</span>
+                  <span>{formatSize(sizeRange[1])} sq ft</span>
+                </div>
+                <Slider
+                  range
+                  min={0}
+                  max={10000}
+                  step={100}
+                  value={sizeRange}
+                  onChange={handleSizeChange}
+                />
+              </Col>
+            </Row>
 
-        <div className="flex flex-col items-center">
-          <span className="text-xs md:text-base text-primary-heading dark:text-dark-heading">
-            Size Range (sq ft)
-          </span>
-          <Slider
-            range
-            min={0}
-            max={10000}
-            step={100}
-            value={sizeRange}
-            onChange={handleSizeChange}
-            style={{ width: 200 }}
-          />
-        </div>
-      </div>
-      <div className="flex items-center justify-center">
-        <Button type="primary" onClick={applyFilters}>
-          Apply Filters
-        </Button>
-      </div>
-    </div>
+            {/* Checkboxes */}
+            <Row gutter={[16, 8]}>
+              <Col xs={24} sm={8}>
+                <Checkbox
+                  checked={checkboxStates.newConstruction === true}
+                  onChange={(e) =>
+                    handleCheckboxChange("newConstruction", e.target.checked)
+                  }
+                >
+                  New Construction Only
+                </Checkbox>
+              </Col>
+              <Col xs={24} sm={8}>
+                <Checkbox
+                  checked={checkboxStates.petFriendly === true}
+                  onChange={(e) =>
+                    handleCheckboxChange("petFriendly", e.target.checked)
+                  }
+                >
+                  Pet Friendly Only
+                </Checkbox>
+              </Col>
+              <Col xs={24} sm={8}>
+                <Checkbox
+                  checked={checkboxStates.swimmingPool === true}
+                  onChange={(e) =>
+                    handleCheckboxChange("swimmingPool", e.target.checked)
+                  }
+                >
+                  Swimming Pool Only
+                </Checkbox>
+              </Col>
+            </Row>
+
+            {/* Apply */}
+            <div className="flex justify-center">
+              <Button
+                type="primary"
+                size="large"
+                onClick={applyFilters}
+                icon={<FilterOutlined />}
+              >
+                Apply Filters
+              </Button>
+            </div>
+          </div>
+        </Panel>
+      </Collapse>
+    </Card>
   );
 };
 

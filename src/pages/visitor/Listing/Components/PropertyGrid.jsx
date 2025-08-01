@@ -2,11 +2,7 @@ import PropertyCard from "./PropertyCard";
 
 const PropertyGrid = ({ filteredProperties }) => {
   if (filteredProperties.length == 0) {
-    return (
-      <h1 className="text-primary-subHeading px-10 dark:text-dark-subHeading text-xl font-medium text-center pt-10">
-        We can't seem to find anything for you.
-      </h1>
-    );
+    return null;
   }
   return (
     <div className="mx-auto">

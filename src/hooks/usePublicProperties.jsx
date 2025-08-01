@@ -9,6 +9,8 @@ export const usePublicProperties = () => {
   const fetchProperties = async (filters = {}) => {
     try {
       const params = {};
+
+      // Only add parameters that have actual values
       if (filters.type) params.type = filters.type;
       if (filters.location) params.location = filters.location;
       if (filters.minPrice != null) params.minPrice = filters.minPrice;
@@ -18,19 +20,24 @@ export const usePublicProperties = () => {
       if (filters.bedrooms != null) params.bedrooms = filters.bedrooms;
       if (filters.bathrooms != null) params.bathrooms = filters.bathrooms;
       if (filters.floors != null) params.floors = filters.floors;
-      if (filters.newConstruction != null)
-        params.newConstruction = filters.newConstruction;
-      if (filters.petFriendly != null) params.petFriendly = filters.petFriendly;
-      if (filters.swimmingPool != null)
-        params.swimmingPool = filters.swimmingPool;
+
+      // Boolean filters: only send if explicitly true (null means don't filter)
+      if (filters.newConstruction === true) params.newConstruction = true;
+      if (filters.petFriendly === true) params.petFriendly = true;
+      if (filters.swimmingPool === true) params.swimmingPool = true;
+
       if (filters.searchQuery) params.search = filters.searchQuery;
 
-      // status filter removed → backend always sends only available
+      console.log("Sending filters to backend:", params);
 
       const res = await propertyAxios.get("/properties/public", { params });
       dispatch(setProperties(res.data.data.content));
+
+      return res.data.data.content;
     } catch (e) {
       console.error("Failed to fetch properties", e);
+      dispatch(setProperties([])); // Set empty array on error
+      return [];
     }
   };
 
