@@ -171,7 +171,7 @@ const ContactUs = () => {
                   type="primary"
                   htmlType="submit"
                   loading={isSubmitting}
-                  className="w-full text-white font-semibold py-2 text-lg rounded-md shadow hover:bg-primary-brandColor1Hover transition duration-300"
+                  className=" w-full text-white font-medium py-2 text-base lg:w-fit lg:text-lg rounded-md shadow hover:bg-primary-brandColor1Hover transition duration-300"
                 >
                   Send Message
                 </Button>

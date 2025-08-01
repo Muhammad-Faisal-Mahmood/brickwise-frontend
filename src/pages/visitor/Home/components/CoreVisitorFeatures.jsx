@@ -7,7 +7,7 @@ import {
 
 export default function CoreVisitorFeatures() {
   return (
-    <div className="mt-16 md:mt-32 mb-8 md:mb-12 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6">
+    <div className="mt-16 md:mt-32 mb-8 w-full md:mb-12 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6">
       <Card className="hover:shadow-md transition-shadow h-full">
         <div className="flex items-start">
           <div className="bg-blue-100 px-4 py-3 rounded-full mr-4">
