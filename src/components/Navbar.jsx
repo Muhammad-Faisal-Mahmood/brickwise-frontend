@@ -142,7 +142,7 @@ const Navbar = ({ navItems, drawerVisible, setDrawerVisible }) => {
         ) : (
           <Button
             className="px-8"
-            type="primary"
+            type="default"
             onClick={() => setAuthOpen(true)}
           >
             Login

@@ -1,13 +1,22 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useParams } from "react-router-dom";
 import MediaCarousel from "../../../components/MediaCarousel";
 import PropertyInfo from "./components/PropertyInfo";
 import LocationMap from "../../../components/LocationMap";
 import usePropertyDetails from "../../../hooks/usePropertyDetails";
+import usePropertyView from "../../../hooks/usePropertyView";
 
 const ListingDetails = () => {
   const { id } = useParams();
   const { property, loading, error } = usePropertyDetails(id);
+  const { trackPropertyView } = usePropertyView();
+
+  // Track property view when component mounts and property is loaded
+  useEffect(() => {
+    if (property?.id && !loading && !error) {
+      trackPropertyView(property.id);
+    }
+  }, [property?.id, loading, error, trackPropertyView]);
 
   if (loading) {
     return (
@@ -32,10 +41,13 @@ const ListingDetails = () => {
           {property.title}
         </h1>
       </div>
-      <div className="container mx-auto p-4 flex flex-col md:flex-row gap-6">
+      <div className="container mx-auto p-4 flex flex-col lg:flex-row gap-6">
         {/* Left: media + info */}
-        <div className="md:w-7/12">
-          <MediaCarousel media={property?.media} />
+        <div className="lg:w-7/12">
+          <MediaCarousel
+            media={[property?.mainImage, ...(property?.media || [])]}
+          />
+
           <PropertyInfo
             title={property.title}
             description={property.description}
@@ -53,11 +65,12 @@ const ListingDetails = () => {
             newConstruction={property.newConstruction}
             petFriendly={property.petFriendly}
             swimmingPool={property.swimmingPool}
+            views={property.views} // Pass views to display if needed
           />
         </div>
 
         {/* Right: map */}
-        <div className="md:w-5/12">
+        <div className="lg:w-5/12">
           <div className="h-72 md:h-[450px] lg:h-[550px]">
             <LocationMap address={property.address} />
           </div>

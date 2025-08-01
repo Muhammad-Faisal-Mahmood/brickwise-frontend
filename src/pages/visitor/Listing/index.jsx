@@ -19,6 +19,14 @@ const Listing = () => {
     type: null,
     minPrice: null,
     maxPrice: null,
+    minSize: null,
+    maxSize: null,
+    bedrooms: null,
+    bathrooms: null,
+    floors: null,
+    newConstruction: null,
+    petFriendly: null,
+    swimmingPool: null,
   });
 
   // initial load

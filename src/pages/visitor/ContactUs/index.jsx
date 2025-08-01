@@ -3,8 +3,12 @@ import { Formik, Form, Field, ErrorMessage } from "formik";
 import { Input, Button, Carousel, message, Radio } from "antd";
 import * as Yup from "yup";
 import MediaCarousel from "../../../components/MediaCarousel";
+import useContactUs from "../../../hooks/useContactUs";
 
 const ContactUs = () => {
+  const { submitContactUs } = useContactUs();
+  const [messageApi, contextHolder] = message.useMessage();
+
   const initialValues = {
     name: "",
     email: "",
@@ -23,10 +27,17 @@ const ContactUs = () => {
     queryType: Yup.string().required("Please select a query type"),
   });
 
-  const handleSubmit = (values, { resetForm }) => {
-    console.log("Form data:", values);
-    message.success("Thank you! We'll get back to you soon.");
-    resetForm();
+  const handleSubmit = async (values, { resetForm, setSubmitting }) => {
+    try {
+      const msg = await submitContactUs(values);
+      resetForm();
+      messageApi.open({ type: "success", content: msg });
+    } catch (error) {
+      messageApi.open({ type: "error", content: error.message });
+      // error message is already shown in the hook
+    } finally {
+      setSubmitting(false);
+    }
   };
 
   const media = [
@@ -38,10 +49,11 @@ const ContactUs = () => {
   ];
 
   return (
-    <section className="  flex items-center justify-between gap-2">
-      <div className="flex flex-col  md:flex-row bg-white dark:bg-dark-accent shadow-xl rounded-xl overflow-hidden w-full">
+    <section className="flex items-center justify-between gap-2">
+      {contextHolder}
+      <div className="flex flex-col md:flex-row bg-white dark:bg-dark-accent shadow-xl rounded-xl overflow-hidden w-full min-h-[550px]">
         {/* Left: Form */}
-        <div className="flex-1 p-8 md:p-12 w-full lg:w-[45%] ">
+        <div className="flex-1 p-8 md:p-12 w-full h-full lg:w-[45%]">
           <h2 className="text-3xl font-extrabold text-primary-heading dark:text-dark-heading mb-6 text-center md:text-left">
             Contact Us
           </h2>
@@ -166,7 +178,9 @@ const ContactUs = () => {
             )}
           </Formik>
         </div>
-        <div className="hidden lg:block flex-1 max-h-[65vh] w-[45%]">
+
+        {/* Right: Carousel - Updated for full height */}
+        <div className="hidden lg:flex flex-1 w-[55%] h-full  ">
           <MediaCarousel
             media={media}
             arrows={false}
