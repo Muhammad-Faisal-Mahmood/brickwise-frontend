@@ -7,6 +7,7 @@ import {
   Upload,
   Button,
   message,
+  Switch,
 } from "antd";
 import { useEffect, useState } from "react";
 import { updateProperty } from "../../../../hooks/usePropertyActions";
@@ -85,6 +86,7 @@ const PropertyEditModal = ({ visible, onClose, property, onUpdated }) => {
       onOk={() => form.submit()}
       confirmLoading={loading}
       width={800}
+      bodyStyle={{ maxHeight: "60vh", overflowY: "auto" }}
     >
       {contextHolder}
       <Form
@@ -108,7 +110,43 @@ const PropertyEditModal = ({ visible, onClose, property, onUpdated }) => {
         <Form.Item label="Purpose" name="purpose">
           <Select options={[{ value: "sale" }, { value: "rent" }]} />
         </Form.Item>
-        <Form.Item label="Location" name="location">
+        <Form.Item label="Bedrooms" name="bedrooms">
+          <InputNumber min={0} style={{ width: "100%" }} />
+        </Form.Item>
+        <Form.Item label="Bathrooms" name="bathrooms">
+          <InputNumber min={0} style={{ width: "100%" }} />
+        </Form.Item>
+        <Form.Item label="Floors" name="floors">
+          <InputNumber min={0} style={{ width: "100%" }} />
+        </Form.Item>
+        <Form.Item label="Size (sq ft)" name="size">
+          <InputNumber min={0} style={{ width: "100%" }} />
+        </Form.Item>
+        <Form.Item
+          label="New Construction"
+          name="newConstruction"
+          valuePropName="checked"
+        >
+          <Switch />
+        </Form.Item>
+        <Form.Item
+          label="Pet Friendly"
+          name="petFriendly"
+          valuePropName="checked"
+        >
+          <Switch />
+        </Form.Item>
+        <Form.Item
+          label="Swimming Pool"
+          name="swimmingPool"
+          valuePropName="checked"
+        >
+          <Switch />
+        </Form.Item>
+        <Form.Item label="Status" name="status">
+          <Select options={[{ value: "available" }, { value: "sold" }]} />
+        </Form.Item>
+        <Form.Item label="City" name="location">
           <Input />
         </Form.Item>
         <Form.Item label="Address" name="address">
