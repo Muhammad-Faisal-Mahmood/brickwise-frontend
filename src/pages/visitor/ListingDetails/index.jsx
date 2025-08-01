@@ -28,7 +28,7 @@ const ListingDetails = () => {
   return (
     <>
       <div className="hidden md:flex items-center justify-center mb-20">
-        <h1 className="xl:text-6xl lg:text-5xl md:text-4xl text-2xl text-primary-heading dark:text-dark-heading font-bold">
+        <h1 className="xl:text-6xl text-center lg:text-5xl md:text-4xl text-2xl text-primary-heading dark:text-dark-heading font-bold">
           {property.title}
         </h1>
       </div>
@@ -41,15 +41,26 @@ const ListingDetails = () => {
             description={property.description}
             price={property.price}
             dealerName={property.dealerName}
+            dealerId={property.dealerId}
             location={property.location}
             purpose={property.purpose}
-            dealerId={property.dealerId}
+            type={property.type}
+            status={property.status}
+            bedrooms={property.bedrooms}
+            bathrooms={property.bathrooms}
+            floors={property.floors}
+            size={property.size}
+            newConstruction={property.newConstruction}
+            petFriendly={property.petFriendly}
+            swimmingPool={property.swimmingPool}
           />
         </div>
 
         {/* Right: map */}
         <div className="md:w-5/12">
-          <LocationMap address={property.address} />
+          <div className="h-72 md:h-[450px] lg:h-[550px]">
+            <LocationMap address={property.address} />
+          </div>
         </div>
       </div>
     </>
