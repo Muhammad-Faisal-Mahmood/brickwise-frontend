@@ -74,7 +74,7 @@ const AuthModal = ({ open, onClose }) => {
 
           if (res?.data?.role == "DEALER") {
             setTimeout(() => {
-              navigate("/dealer-dashboard");
+              navigate("/dealer-dashboard/created-properties");
             }, 1500);
           }
           onClose();

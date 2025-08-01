@@ -147,7 +147,7 @@ const DealerRegistriesPage = () => {
         </div>
       ) : (
         <>
-          <div className="overflow-x-auto">
+          <div className="overflow-x-auto hide-scrollbar ">
             <Table
               rowKey="id"
               columns={columns}

@@ -75,7 +75,7 @@ const PropertyTablePage = ({ apiEndpoint, showDealerColumn }) => {
 
   const columns = [
     { title: "ID", dataIndex: "id", key: "id", fixed: "left" },
-    { title: "Title", dataIndex: "title", key: "title", fixed: "left" },
+    { title: "Title", dataIndex: "title", key: "title" },
     { title: "Description", dataIndex: "description", key: "description" },
     showDealerColumn && {
       title: "Dealer",
@@ -228,6 +228,7 @@ const PropertyTablePage = ({ apiEndpoint, showDealerColumn }) => {
             dataSource={properties}
             pagination={false}
             bordered
+            className="hide-scrollbar overflow-auto"
             scroll={{ x: "max-content" }}
           />
           <div className="flex justify-end mt-4">

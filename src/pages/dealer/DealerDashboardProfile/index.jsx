@@ -185,11 +185,7 @@ const DealerDashboardProfile = () => {
 
       <Card title="Created Properties">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          {[
-            ...profile.createdProperties,
-            ...profile.createdProperties,
-            ...profile.createdProperties,
-          ].map((item, index) => (
+          {profile.createdProperties.map((item, index) => (
             <Card
               key={index}
               hoverable

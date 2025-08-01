@@ -190,7 +190,7 @@ const AdminLayout = () => {
             <Dropdown overlay={menu} placement="bottomRight" arrow>
               <Avatar
                 size={isMobile ? "small" : "default"}
-                style={{ backgroundColor: "#10b981", cursor: "pointer" }}
+                style={{ cursor: "pointer" }}
               >
                 {user?.name ? (
                   user.name.charAt(0).toUpperCase()

@@ -182,7 +182,7 @@ const ContactMessages = () => {
             dataSource={messages}
             pagination={false}
             bordered
-            className="overflow-auto"
+            className="overflow-auto hide-scrollbar "
           />
           <div className="flex justify-end mt-4">
             <Pagination

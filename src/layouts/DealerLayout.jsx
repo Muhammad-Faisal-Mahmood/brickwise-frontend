@@ -9,6 +9,8 @@ import {
   MenuUnfoldOutlined,
   BulbOutlined,
   UserOutlined,
+  PlusSquareOutlined,
+  PlusCircleOutlined,
 } from "@ant-design/icons";
 import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
@@ -90,6 +92,7 @@ const DealerLayout = () => {
     },
     {
       key: "/dealer-dashboard/created-properties",
+
       icon: <HomeOutlined />,
       label: (
         <Link to="/dealer-dashboard/created-properties">My Properties</Link>
@@ -98,7 +101,7 @@ const DealerLayout = () => {
     },
     {
       key: "/dealer-dashboard/create-property",
-      icon: <HomeOutlined />,
+      icon: <PlusCircleOutlined />,
       label: (
         <Link to="/dealer-dashboard/create-property">Create Property</Link>
       ),
@@ -173,7 +176,7 @@ const DealerLayout = () => {
             <Dropdown overlay={menu} placement="bottomRight" arrow>
               <Avatar
                 size={isMobile ? "small" : "default"}
-                style={{ backgroundColor: "#10b981", cursor: "pointer" }}
+                style={{ cursor: "pointer" }}
               >
                 {user?.name ? (
                   user.name.charAt(0).toUpperCase()
