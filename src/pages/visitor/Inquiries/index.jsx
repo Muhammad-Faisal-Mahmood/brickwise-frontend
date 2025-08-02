@@ -1,12 +1,12 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useMemo } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Card, List, Spin, Avatar, Typography, Divider } from "antd";
+import { Card, List, Spin, Avatar, Typography, Badge } from "antd";
 import { motion } from "framer-motion";
 import {
   fetchUserInquiries,
   getInquiryById,
-  addResponse,
   fetchDealerInquiries,
+  clearSelectedInquiry,
 } from "../../../redux/features/inquirySlice";
 import InquiryChatPanel from "./components/InquiryChatPanel";
 import useDealerProfile from "../../../hooks/useDealerProfile";
@@ -16,13 +16,12 @@ const { Title, Text } = Typography;
 
 const Inquiries = () => {
   const dispatch = useDispatch();
-
   const [selectedInquiryId, setSelectedInquiryId] = useState(null);
+  const [readInquiryIds, setReadInquiryIds] = useState(new Set()); // local tracking
 
   const { inquiries, selectedInquiry, loading } = useSelector(
     (state) => state.inquiries
   );
-
   const { user } = useSelector((state) => state.auth);
 
   const dealerId = selectedInquiry?.dealerId;
@@ -40,10 +39,36 @@ const Inquiries = () => {
   }, [dispatch, user?.role]);
 
   useEffect(() => {
+    dispatch(clearSelectedInquiry());
+    setSelectedInquiryId(null);
+  }, [dispatch]);
+
+  useEffect(() => {
     if (selectedInquiryId) {
       dispatch(getInquiryById(selectedInquiryId));
     }
   }, [selectedInquiryId, dispatch]);
+
+  // 🧠 Compute unread counts & sort inquiries
+  const processedInquiries = useMemo(() => {
+    if (!inquiries || !user) return [];
+
+    return inquiries
+      .map((inquiry) => {
+        let unreadCount = 0;
+        if (user.role === "DEALER") {
+          unreadCount = inquiry.responses?.filter(
+            (r) => !r.fromDealer && !r.seenByDealer
+          ).length;
+        } else {
+          unreadCount = inquiry.responses?.filter(
+            (r) => r.fromDealer && !r.seenByUser
+          ).length;
+        }
+        return { ...inquiry, unreadCount };
+      })
+      .sort((a, b) => b.unreadCount - a.unreadCount);
+  }, [inquiries, user]);
 
   return (
     <motion.div className="flex flex-col md:flex-row gap-4 p-4">
@@ -60,27 +85,39 @@ const Inquiries = () => {
         ) : (
           <List
             itemLayout="horizontal"
-            dataSource={inquiries}
+            dataSource={processedInquiries}
             className="py-3"
-            split={false} // disable default bottom border
+            split={false}
             renderItem={(inquiry) => (
               <List.Item
                 style={{ padding: "20px" }}
-                onClick={() => setSelectedInquiryId(inquiry.id)}
+                onClick={() => {
+                  setSelectedInquiryId(inquiry.id);
+                  setReadInquiryIds((prev) => new Set(prev).add(inquiry.id));
+                }}
                 className={`
-        cursor-pointer rounded-2xl mb-3 p-4 transition-colors
-        ${
-          selectedInquiryId === inquiry.id
-            ? "bg-purple-200 dark:bg-primary-dark  "
-            : " hover:bg-purple-100 dark:hover:bg-primary-dark/20"
-        }
-      `}
+                  cursor-pointer rounded-2xl mb-3 p-4 transition-colors
+                  ${
+                    selectedInquiryId === inquiry.id
+                      ? "bg-purple-200 dark:bg-primary-dark"
+                      : "hover:bg-purple-100 dark:hover:bg-primary-dark/20"
+                  }
+                `}
               >
                 <List.Item.Meta
                   title={
-                    <span className="text-primary-heading dark:text-dark-heading">
-                      Property: {property?.title}
-                    </span>
+                    <div className="flex items-center gap-2">
+                      <span className="text-primary-heading dark:text-dark-heading">
+                        Property ID: {inquiry.propertyId}
+                      </span>
+                      {inquiry.unreadCount > 0 &&
+                        !readInquiryIds.has(inquiry.id) && (
+                          <Badge
+                            count={inquiry.unreadCount}
+                            style={{ backgroundColor: "#f5222d" }}
+                          />
+                        )}
+                    </div>
                   }
                   description={
                     <span className="text-primary-subHeading dark:text-dark-subHeading">
@@ -101,7 +138,7 @@ const Inquiries = () => {
             {/* Chat panel */}
             <InquiryChatPanel currentUser={user} inquiry={selectedInquiry} />
 
-            {/* Dealer & Property cards side by side */}
+            {/* Dealer & Property cards */}
             <div className="flex flex-col md:flex-row gap-4">
               {/* Dealer card */}
               <Card

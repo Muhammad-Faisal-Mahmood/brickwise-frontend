@@ -16,6 +16,8 @@ import { EditOutlined, UploadOutlined, SaveOutlined } from "@ant-design/icons";
 import axiosInstance from "../../../api/axiosInstance";
 import { useDispatch, useSelector } from "react-redux";
 import { updateUserName } from "../../../redux/features/authSlice";
+import ChangePasswordCard from "../../../components/ChangePasswordCard";
+import { useUserProfileApi } from "../../../hooks/useUserProfile";
 
 const { Title, Text, Paragraph } = Typography;
 
@@ -24,9 +26,16 @@ const DealerDashboardProfile = () => {
   const [editing, setEditing] = useState(false);
   const [form] = Form.useForm();
   const [loading, setLoading] = useState(false);
+  const { changePassword, contextHolder } = useUserProfileApi();
 
   const { user } = useSelector((state) => state.auth);
   const dispatch = useDispatch();
+  const [passwordForm] = Form.useForm();
+
+  const handlePasswordChange = async (values) => {
+    await changePassword(values.oldPassword, values.newPassword);
+    passwordForm.resetFields();
+  };
 
   // Fetch profile
   useEffect(() => {
@@ -85,6 +94,7 @@ const DealerDashboardProfile = () => {
 
   return (
     <div className="max-w-3xl mx-auto space-y-6">
+      {contextHolder}
       <Card
         className="shadow-sm"
         title={
@@ -183,6 +193,10 @@ const DealerDashboardProfile = () => {
         )}
       </Card>
 
+      <ChangePasswordCard
+        passwordForm={passwordForm}
+        handlePasswordChange={handlePasswordChange}
+      />
       <Card title="Created Properties">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           {profile.createdProperties.map((item, index) => (
