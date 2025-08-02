@@ -119,7 +119,7 @@ const PropertyInfo = ({
             className="cursor-pointer hover:shadow-md hover:scale-105 transition-all duration-200 text-sm font-medium px-3 py-1"
             onClick={() => navigate(`/dealers/${dealerId}`)}
           >
-            Dealer: {dealerName}
+            Dealer: <span className="capitalize">{dealerName}</span>
           </Tag>
         </Tooltip>
 

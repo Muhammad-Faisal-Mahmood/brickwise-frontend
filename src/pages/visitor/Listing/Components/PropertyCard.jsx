@@ -105,7 +105,8 @@ const PropertyCard = ({
             <strong>{purpose === "rent" ? "Rent:" : "Price:"}</strong> {price}
           </div>
           <div>
-            <strong>Dealer:</strong> {dealerName}
+            <strong>Dealer:</strong>{" "}
+            <span className="capitalize">{dealerName}</span>
           </div>
         </div>
 

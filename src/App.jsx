@@ -3,11 +3,17 @@ import Routes from "./router/routes";
 import "slick-carousel/slick/slick.css";
 import React, { useEffect } from "react";
 import { ConfigProvider, theme } from "antd";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { selectDarkMode } from "./redux/features/themeSlice";
+import { fetchCurrentUser } from "./redux/actions/fetchCurrentUser";
 
 function App() {
   const darkMode = useSelector(selectDarkMode);
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(fetchCurrentUser());
+  }, [dispatch]);
 
   useEffect(() => {
     if (darkMode) {

@@ -7,7 +7,7 @@ import * as Yup from "yup";
 import { useDispatch } from "react-redux";
 import { loginSuccess } from "../redux/features/authSlice";
 import { useAuth } from "../hooks/useAuth";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useFavorites } from "../hooks/useFavorites";
 
 const AuthModal = ({ open, onClose }) => {
@@ -18,6 +18,7 @@ const AuthModal = ({ open, onClose }) => {
   const navigate = useNavigate();
   const { login, register, forgotPassword } = useAuth();
   const { fetchAllFavorites } = useFavorites();
+  const OAuthRedirect = import.meta.env.VITE_GOOGLE_OAUTH_LOGIN_REDIRECT;
 
   // Validation schemas
   const loginSchema = Yup.object({
@@ -120,11 +121,13 @@ const AuthModal = ({ open, onClose }) => {
               : "Welcome! Create an account to get started."}
           </p>
 
-          <div className="flex gap-2">
-            <Button icon={<GoogleOutlined />} block>
-              Google
-            </Button>
-          </div>
+          {!showForgot && (
+            <Link to={OAuthRedirect} className="flex gap-2">
+              <Button icon={<GoogleOutlined />} block>
+                Google
+              </Button>
+            </Link>
+          )}
 
           {showForgot ? (
             <Form layout="vertical" onFinish={forgotFormik.handleSubmit}>
