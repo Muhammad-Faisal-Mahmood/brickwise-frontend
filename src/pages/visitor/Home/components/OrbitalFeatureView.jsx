@@ -27,7 +27,7 @@ export default function OrbitalFeatureView({
   };
 
   return (
-    <div className="relative w-full  h-fit md:h-96 mt-0 md:mt-20 md:mb-10 flex items-center justify-center">
+    <div className="relative w-full  h-fit md:h-96 mt-0 md:mt-56 mb-0 md:mb-40 flex items-center justify-center">
       {/* SVG for orbits */}
       <svg className="absolute w-full h-full" style={{ overflow: "visible" }}>
         {visitorFeatures.map((feature, idx) => {

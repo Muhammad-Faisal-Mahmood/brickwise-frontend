@@ -6,6 +6,7 @@ import { ConfigProvider, theme } from "antd";
 import { useSelector, useDispatch } from "react-redux";
 import { selectDarkMode } from "./redux/features/themeSlice";
 import { fetchCurrentUser } from "./redux/actions/fetchCurrentUser";
+import RoleRedirector from "./router/RoleRedirector";
 
 function App() {
   const darkMode = useSelector(selectDarkMode);

@@ -1,13 +1,13 @@
 import { Card } from "antd";
 import {
   SearchOutlined,
-  NotificationOutlined,
+  MessageOutlined,
   CheckOutlined,
 } from "@ant-design/icons";
 
 export default function CoreVisitorFeatures() {
   return (
-    <div className="mt-16 md:mt-32 mb-8 w-full md:mb-12 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6">
+    <div className="mt-0 lg:mt-28  mb-8 w-full md:mb-12 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6">
       <Card className="hover:shadow-md transition-shadow h-full">
         <div className="flex items-start">
           <div className="bg-blue-100 px-4 py-3 rounded-full mr-4">
@@ -25,12 +25,12 @@ export default function CoreVisitorFeatures() {
       <Card className="hover:shadow-md transition-shadow h-full">
         <div className="flex items-start">
           <div className="bg-purple-100 px-4 py-3 rounded-full mr-4">
-            <NotificationOutlined className="text-purple-600 text-xl" />
+            <MessageOutlined className="text-purple-600 text-xl" />
           </div>
           <div>
-            <h3 className="font-semibold">Instant Alerts</h3>
+            <h3 className="font-semibold">Real-Time Chat</h3>
             <p className="text-primary-subHeading text-sm">
-              Get notified when prices drop on your favorite properties
+              Connect instantly with verified dealers through secure messaging
             </p>
           </div>
         </div>

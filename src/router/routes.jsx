@@ -25,11 +25,13 @@ import CreateProperty from "../pages/dealer/DealerCreateProperty";
 import ContactUs from "../pages/visitor/ContactUs";
 import ContactMessages from "../pages/admin/ContactMessages";
 import BlacklistedDealers from "../pages/admin/BlacklistedDealers";
+import RoleRedirector from "./RoleRedirector";
 
 const AppRoutes = () => {
   return (
     <Router>
       <ScrollToTop>
+        <RoleRedirector />
         <Routes>
           <Route path="/" element={<VisitorLayout />}>
             <Route index element={<Home />} />

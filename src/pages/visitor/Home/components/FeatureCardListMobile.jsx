@@ -7,7 +7,7 @@ export default function FeatureCardListMobile({
   toggleItem,
 }) {
   return (
-    <div className="w-full md:hidden space-y-4 mb-8">
+    <div className="w-full  space-y-4 mb-8">
       {visitorFeatures.map((feature) => (
         <Card
           key={feature.id}
