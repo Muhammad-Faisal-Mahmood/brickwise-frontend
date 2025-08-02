@@ -85,7 +85,7 @@ const Filters = ({ handleFilterChange, applyFilters, resetFilters }) => {
   const formatSize = (value) =>
     value >= 1000 ? `${(value / 1000).toFixed(1)}K` : value.toString();
 
-  const [activeKey, setActiveKey] = useState(["1"]); // default open
+  const [activeKey, setActiveKey] = useState(["0"]); // default open
 
   const isOpen = activeKey.includes("1");
 
