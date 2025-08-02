@@ -1,16 +1,40 @@
-import { useDispatch } from "react-redux";
-import { setProperties } from "../redux/features/propertySlice";
-import axios from "axios";
+// src/hooks/useProperties.js
+import { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  setProperties,
+  appendProperties,
+  setLoading,
+  setHasMore,
+  setPage,
+  setPropertyFilters,
+  setError,
+} from "../redux/features/propertySlice";
+import { selectFilteredProperties } from "../redux/features/propertySlice";
 import propertyAxios from "../api/propertyAxios";
 
-export const usePublicProperties = () => {
+const usePublicProperties = () => {
   const dispatch = useDispatch();
+  const properties = useSelector(selectFilteredProperties);
+  const { page, hasMore, loading, filters } = useSelector(
+    (state) => state.properties
+  );
 
-  const fetchProperties = async (filters = {}) => {
+  const fetchProperties = async (reset = false) => {
+    // Only fetch if not already loading to prevent duplicate requests
+    if (loading) return;
+
+    dispatch(setLoading(true));
+    dispatch(setError(null)); // Clear previous errors
+
     try {
-      const params = {};
+      const currentPage = reset ? 0 : page;
+      const params = {
+        page: currentPage,
+        size: 10, // Adjust page size as needed
+      };
 
-      // Only add parameters that have actual values
+      // Only add filter parameters that have actual values
       if (filters.type) params.type = filters.type;
       if (filters.location) params.location = filters.location;
       if (filters.minPrice != null) params.minPrice = filters.minPrice;
@@ -20,26 +44,69 @@ export const usePublicProperties = () => {
       if (filters.bedrooms != null) params.bedrooms = filters.bedrooms;
       if (filters.bathrooms != null) params.bathrooms = filters.bathrooms;
       if (filters.floors != null) params.floors = filters.floors;
+      if (filters.purpose) params.purpose = filters.purpose;
 
-      // Boolean filters: only send if explicitly true (null means don't filter)
+      // Boolean filters: only send if explicitly true
       if (filters.newConstruction === true) params.newConstruction = true;
       if (filters.petFriendly === true) params.petFriendly = true;
       if (filters.swimmingPool === true) params.swimmingPool = true;
 
-      if (filters.searchQuery) params.search = filters.searchQuery;
+      // Note: searchQuery is handled on frontend, not sent to backend
 
       console.log("Sending filters to backend:", params);
 
       const res = await propertyAxios.get("/properties/public", { params });
-      dispatch(setProperties(res.data.data.content));
 
-      return res.data.data.content;
+      const content = res.data?.data?.content || [];
+      const lastPage = res.data?.data?.last; // Boolean from backend
+
+      if (reset) {
+        dispatch(setProperties(content));
+        dispatch(setPage(1)); // Start next page from 1 if resetting
+      } else {
+        dispatch(appendProperties(content));
+        dispatch(setPage(page + 1));
+      }
+
+      dispatch(setHasMore(!lastPage)); // Update hasMore based on backend's 'last' property
     } catch (e) {
-      console.error("Failed to fetch properties", e);
-      dispatch(setProperties([])); // Set empty array on error
-      return [];
+      console.error("Failed to fetch properties:", e);
+      dispatch(setError(e.message || "An unknown error occurred"));
+    } finally {
+      dispatch(setLoading(false));
     }
   };
 
-  return { fetchProperties };
+  // Effect runs when filters change
+  useEffect(() => {
+    fetchProperties(true);
+  }, [filters, dispatch]);
+
+  // Apply filters (reset page)
+  const applyFilters = (newFilters) => {
+    // Merge new filters with existing ones
+    const updatedFilters = { ...filters, ...newFilters };
+
+    // Prevent unnecessary API calls if filters haven't actually changed
+    if (JSON.stringify(filters) !== JSON.stringify(updatedFilters)) {
+      dispatch(setPropertyFilters(newFilters)); // This will trigger useEffect
+    }
+  };
+
+  const loadMore = () => {
+    if (hasMore && !loading) {
+      fetchProperties(false); // Do not reset for loadMore
+    }
+  };
+
+  return {
+    properties,
+    hasMore,
+    loading,
+    loadMore,
+    applyFilters,
+    filters,
+  };
 };
+
+export default usePublicProperties;

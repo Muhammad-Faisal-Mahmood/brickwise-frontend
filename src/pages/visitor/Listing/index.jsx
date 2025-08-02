@@ -1,18 +1,16 @@
-import { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useState } from "react";
+import { useDispatch } from "react-redux";
+import { Button } from "antd";
 import SearchBar from "../../../components/SearchBar";
-import {
-  setFilters,
-  resetFilters,
-} from "../../../redux/features/propertySlice";
+import { resetFilters } from "../../../redux/features/propertySlice";
 import Filters from "./Components/Filters";
 import PropertyGrid from "./Components/PropertyGrid";
-import { usePublicProperties } from "../../../hooks/usePublicProperties";
+import usePublicProperties from "../../../hooks/usePublicProperties"; // Updated import
 
 const Listing = () => {
   const dispatch = useDispatch();
-  const allProperties = useSelector((state) => state.properties.properties);
-  const { fetchProperties } = usePublicProperties();
+  const { properties, hasMore, loading, loadMore, applyFilters, filters } =
+    usePublicProperties();
 
   const [localFilters, setLocalFilters] = useState({
     location: null,
@@ -24,25 +22,17 @@ const Listing = () => {
     bedrooms: null,
     bathrooms: null,
     floors: null,
-    newConstruction: null, // null = don't filter, true = only new construction
-    petFriendly: null, // null = don't filter, true = only pet friendly
-    swimmingPool: null, // null = don't filter, true = only with pool
-    searchQuery: null,
+    newConstruction: null,
+    petFriendly: null,
+    swimmingPool: null,
+    purpose: null,
   });
-
-  // initial load
-  useEffect(() => {
-    fetchProperties(); // fetch all
-    return () => {
-      dispatch(resetFilters());
-    };
-  }, [dispatch]);
 
   const handleFilterChange = (field, value) => {
     setLocalFilters((prev) => ({ ...prev, [field]: value }));
   };
 
-  const applyFilters = () => {
+  const handleApplyFilters = () => {
     // Clean up filters - remove null values to avoid sending unnecessary params
     const cleanFilters = Object.entries(localFilters).reduce(
       (acc, [key, value]) => {
@@ -54,17 +44,11 @@ const Listing = () => {
       {}
     );
 
-    dispatch(setFilters(cleanFilters));
-    fetchProperties(cleanFilters);
+    applyFilters(cleanFilters);
   };
 
   const handleSearch = (query) => {
-    const searchQuery = query?.trim() || null;
-    const updatedFilters = { ...localFilters, searchQuery };
-
-    setLocalFilters(updatedFilters);
-    dispatch(setFilters(updatedFilters));
-    fetchProperties(updatedFilters);
+    applyFilters({ searchQuery: query });
   };
 
   const handleResetFilters = () => {
@@ -81,12 +65,11 @@ const Listing = () => {
       newConstruction: null,
       petFriendly: null,
       swimmingPool: null,
-      searchQuery: null,
+      purpose: null,
     };
 
     setLocalFilters(resetState);
     dispatch(resetFilters());
-    fetchProperties(); // Fetch all properties without filters
   };
 
   return (
@@ -98,7 +81,7 @@ const Listing = () => {
 
       <Filters
         handleFilterChange={handleFilterChange}
-        applyFilters={applyFilters}
+        applyFilters={handleApplyFilters}
         resetFilters={handleResetFilters}
       />
 
@@ -107,11 +90,19 @@ const Listing = () => {
           Available Properties
         </h2>
         <p className="text-primary-subHeading dark:text-dark-subHeading">
-          {allProperties?.length || 0} properties found
+          {properties?.length || 0} properties found
         </p>
       </div>
 
-      <PropertyGrid filteredProperties={allProperties} />
+      <PropertyGrid filteredProperties={properties} />
+
+      {hasMore && (
+        <div className="flex justify-center mt-4">
+          <Button loading={loading} onClick={loadMore}>
+            Show More
+          </Button>
+        </div>
+      )}
     </div>
   );
 };
