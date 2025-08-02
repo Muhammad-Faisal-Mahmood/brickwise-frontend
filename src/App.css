@@ -95,3 +95,7 @@ body {
 .zero-padding .ant-collapse-content-box {
   padding: 0 !important;
 }
+
+.ant-radio-no-border .ant-radio-button-wrapper::before {
+  display: none !important;
+}

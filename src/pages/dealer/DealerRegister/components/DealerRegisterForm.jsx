@@ -56,10 +56,7 @@ const DealerRegisterForm = () => {
             { type: "email", message: "Invalid Email!" },
           ]}
         >
-          <Input
-            placeholder="Enter your email"
-            className="dark:bg-gray-800 dark:text-dark-heading"
-          />
+          <Input placeholder="Enter your email" />
         </Form.Item>
 
         {/* Name & Phone - side by side */}
@@ -74,10 +71,7 @@ const DealerRegisterForm = () => {
             className="md:w-1/2"
             rules={[{ required: true, message: "Please input your Name!" }]}
           >
-            <Input
-              placeholder="Enter your full name"
-              className="dark:bg-gray-800 dark:text-dark-heading"
-            />
+            <Input placeholder="Enter your full name" />
           </Form.Item>
 
           <Form.Item
@@ -96,10 +90,7 @@ const DealerRegisterForm = () => {
               },
             ]}
           >
-            <Input
-              placeholder="e.g., +1234567890 or 03XX-XXXXXXX"
-              className="dark:bg-gray-800 dark:text-dark-heading"
-            />
+            <Input placeholder="e.g., +1234567890 or 03XX-XXXXXXX" />
           </Form.Item>
         </div>
 
@@ -115,10 +106,7 @@ const DealerRegisterForm = () => {
             className="md:w-1/2"
             rules={[{ required: true, message: "Please input your City!" }]}
           >
-            <Input
-              placeholder="e.g., Lahore, Karachi"
-              className="dark:bg-gray-800 dark:text-dark-heading"
-            />
+            <Input placeholder="e.g., Lahore, Karachi" />
           </Form.Item>
 
           <Form.Item
@@ -130,10 +118,7 @@ const DealerRegisterForm = () => {
             name="socialLinks"
             className="md:w-1/2"
           >
-            <Input
-              placeholder="e.g., LinkedIn profile, website"
-              className="dark:bg-gray-800 dark:text-dark-heading"
-            />
+            <Input placeholder="e.g., LinkedIn profile, website" />
           </Form.Item>
         </div>
 
@@ -148,13 +133,16 @@ const DealerRegisterForm = () => {
         </div>
 
         <Form.Item>
-          <Button
-            htmlType="submit"
-            loading={loading}
-            className="w-full bg-primary-brandColor1 hover:bg-primary-brandColor1Hover text-white font-bold py-2 px-4 rounded-md"
-          >
-            Register
-          </Button>
+          <div className="flex items-center justify-center md:items-start md:justify-start pt-4">
+            <Button
+              htmlType="submit"
+              loading={loading}
+              type="primary"
+              className="w-fit  text-white py-4 text-lg px-12 md:text-base   rounded-md"
+            >
+              Register
+            </Button>
+          </div>
         </Form.Item>
       </Form>
     </>

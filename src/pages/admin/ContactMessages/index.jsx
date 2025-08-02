@@ -112,6 +112,7 @@ const ContactMessages = () => {
       key: "responded",
       render: (r) =>
         r ? <Tag color="green">Yes</Tag> : <Tag color="red">No</Tag>,
+      sorter: (a, b) => Number(a.responded) - Number(b.responded),
     },
     {
       title: "Actions",

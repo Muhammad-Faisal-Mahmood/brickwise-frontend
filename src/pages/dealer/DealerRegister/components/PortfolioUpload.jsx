@@ -29,10 +29,7 @@ const PortfolioUpload = ({ file, setFile }) => {
       }
     >
       <Upload {...uploadProps}>
-        <Button
-          icon={<UploadOutlined />}
-          className="bg-primary-brandColor1 text-white dark:bg-purple-600 dark:hover:bg-purple-700"
-        >
+        <Button icon={<UploadOutlined />} type="primary">
           Upload Portfolio
         </Button>
       </Upload>
