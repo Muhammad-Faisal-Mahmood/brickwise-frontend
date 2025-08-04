@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Table, Spin, Alert, Pagination, Button, message, Input } from "antd";
-import useAdminBlacklistedDealers from "../../../hooks/useAdminBlackListedDealers";
+import useAdminBlacklistedDealers from "../../../hooks/useAdminBlacklistedDealers";
 import axiosInstance from "../../../api/axiosInstance";
 
 const { Search } = Input;
