@@ -6,17 +6,8 @@ import { createInquiry } from "../../../../redux/features/inquirySlice";
 
 const { TextArea } = Input;
 
-const InquireModal = ({
-  open,
-  onClose,
-  propertyId,
-  propertyName,
-  onSubmit,
-}) => {
+const InquireModal = ({ open, onClose, propertyId, propertyName }) => {
   const [form] = Form.useForm();
-
-  console.log("property id", propertyId);
-
   const dispatch = useDispatch();
   const { loading, error } = useSelector((state) => state.inquiries);
 

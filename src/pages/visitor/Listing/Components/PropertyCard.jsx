@@ -38,8 +38,8 @@ const PropertyCard = ({
     e.stopPropagation();
     if (!isAuthenticated) {
       messageApi.open({
-        type: "error",
-        content: "Login first to add properties to favourites",
+        type: "info",
+        content: "Login to add properties to favourites",
       });
       return;
     }
@@ -83,9 +83,10 @@ const PropertyCard = ({
       <Card
         hoverable
         onClick={() => navigate("/listings/" + id)}
-        style={{ width: 300 }}
+        // style={{ width: 300 }}
+        className="w-[300px] "
         cover={
-          <div className="h-72 overflow-hidden z-0">
+          <div className="h-72  overflow-hidden z-0">
             <img
               alt="Property"
               src={imgUrl}
@@ -94,7 +95,10 @@ const PropertyCard = ({
           </div>
         }
       >
-        <Meta title={title} description={description} />
+        <Meta
+          title={title}
+          description={<p className="line-clamp-2">{description}</p>}
+        />
 
         {/* Extra info */}
         <div className="mt-2 space-y-1 text-primary-subHeading dark:text-dark-subHeading text-sm">
@@ -117,6 +121,13 @@ const PropertyCard = ({
             block
             onClick={(e) => {
               e.stopPropagation(); // stop the click from reaching the Card
+              if (!isAuthenticated) {
+                messageApi.open({
+                  type: "info",
+                  content: "Login to inquire about properties",
+                });
+                return;
+              }
               setModalOpen(true);
             }}
           >

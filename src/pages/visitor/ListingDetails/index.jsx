@@ -49,6 +49,7 @@ const ListingDetails = () => {
           />
 
           <PropertyInfo
+            propertyId={property.id}
             title={property.title}
             description={property.description}
             price={property.price}

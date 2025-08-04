@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Tag, Tooltip, Button } from "antd";
+import { Tag, Tooltip, Button, message } from "antd";
 import { useNavigate } from "react-router-dom";
 import {
   HomeOutlined,
@@ -20,6 +20,7 @@ import {
   PhoneOutlined,
 } from "@ant-design/icons";
 import InquireModal from "../../Listing/Components/InquireModal"; // Adjust path as needed
+import { useSelector } from "react-redux";
 
 const PropertyInfo = ({
   title,
@@ -42,6 +43,8 @@ const PropertyInfo = ({
 }) => {
   const navigate = useNavigate();
   const [inquireModalOpen, setInquireModalOpen] = useState(false);
+  const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
+  const [messageApi, contextHolder] = message.useMessage();
 
   const handleInquireClick = () => {
     setInquireModalOpen(true);
@@ -70,6 +73,7 @@ const PropertyInfo = ({
 
   return (
     <div className="space-y-4 mt-4">
+      {contextHolder}
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
         <h2 className="text-2xl text-primary-heading dark:text-dark-heading font-semibold">
           {title}
@@ -81,7 +85,16 @@ const PropertyInfo = ({
             type="primary"
             size="large"
             icon={<MessageOutlined />}
-            onClick={handleInquireClick}
+            onClick={() => {
+              if (!isAuthenticated) {
+                messageApi.open({
+                  type: "info",
+                  content: "Login to inquire about properties",
+                });
+                return;
+              }
+              handleInquireClick();
+            }}
             className="btn-primary self-start sm:self-auto"
           >
             Inquire Now

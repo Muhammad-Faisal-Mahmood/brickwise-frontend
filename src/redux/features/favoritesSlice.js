@@ -72,7 +72,11 @@ const favoritesSlice = createSlice({
     loading: false,
     error: null,
   },
-  reducers: {},
+  reducers: {
+    setFavorites: (state, action) => {
+      state.items = action.payload.map((id) => ({ id }));
+    },
+  },
   extraReducers: (builder) => {
     builder
       // Fetch favorites
@@ -132,4 +136,5 @@ const favoritesSlice = createSlice({
   },
 });
 
+export const { setFavorites } = favoritesSlice.actions;
 export default favoritesSlice.reducer;
