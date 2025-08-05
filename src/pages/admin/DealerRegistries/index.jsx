@@ -31,7 +31,8 @@ const DealerRegistriesPage = () => {
   const { registries, totalElements, loading, error } = useDealerRegistries(
     page - 1,
     pageSize,
-    keyword + refreshKey
+    keyword,
+    refreshKey
   );
 
   const handleSearch = (value) => {

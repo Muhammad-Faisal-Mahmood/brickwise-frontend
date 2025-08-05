@@ -159,7 +159,7 @@ const PropertyTablePage = ({ apiEndpoint, showDealerColumn }) => {
 
       <div className="flex flex-col md:flex-row gap-2 mb-4">
         <Input.Search
-          placeholder="Search..."
+          placeholder="Search by title or description..."
           onSearch={handleSearch}
           allowClear
         />
@@ -188,7 +188,6 @@ const PropertyTablePage = ({ apiEndpoint, showDealerColumn }) => {
           <Option value="all">All Statuses</Option>
           <Option value="available">Available</Option>
           <Option value="sold">Sold</Option>
-          <Option value="pending">Pending</Option>
         </Select>
 
         <Select

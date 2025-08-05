@@ -57,9 +57,11 @@ const PropertyEditModal = ({ visible, onClose, property, onUpdated }) => {
       if (newMainImage) formData.append("mainImage", newMainImage);
       newMedia.forEach((file) => formData.append("media", file));
 
-      removeMedia.forEach((filename) =>
-        formData.append("removeMedia", filename)
-      );
+      if (removeMedia.length > 0) {
+        removeMedia.forEach((url) => {
+          formData.append("removeMedia", url);
+        });
+      }
 
       await updateProperty(property.id, formData);
 
@@ -176,21 +178,32 @@ const PropertyEditModal = ({ visible, onClose, property, onUpdated }) => {
         <div className="mb-4">
           <div>Existing Media:</div>
           <div className="flex flex-wrap gap-2">
-            {property.media?.map((filename) => (
-              <div key={filename} className="relative">
-                <img
-                  src={`${filename}`}
-                  alt="media"
-                  className="w-24 h-16 object-cover"
-                />
-                <Button
-                  icon={<DeleteOutlined />}
-                  size="small"
-                  danger
-                  onClick={() => handleRemoveExistingMedia(filename)}
-                />
-              </div>
-            ))}
+            {property.media?.map((filename) => {
+              const isRemoved = removeMedia.includes(filename);
+              return (
+                <div key={filename} className="relative w-24 h-16">
+                  <img
+                    src={filename}
+                    alt="media"
+                    className={`w-24 h-16 object-cover rounded ${
+                      isRemoved ? "opacity-40 grayscale" : ""
+                    }`}
+                  />
+                  {isRemoved && (
+                    <div className="absolute top-0 left-0 w-full h-full bg-black bg-opacity-40 flex items-center justify-center text-white text-sm">
+                      Removed
+                    </div>
+                  )}
+                  <Button
+                    icon={<DeleteOutlined />}
+                    size="small"
+                    danger
+                    className="absolute top-1 right-1 z-10"
+                    onClick={() => handleRemoveExistingMedia(filename)}
+                  />
+                </div>
+              );
+            })}
           </div>
         </div>
 

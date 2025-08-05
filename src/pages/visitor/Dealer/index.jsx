@@ -31,7 +31,7 @@ const Dealers = () => {
         Dealers
       </h2>
 
-      <DealerGrid dealers={dealers} />
+      <DealerGrid dealers={dealers} loading={loading} />
 
       {hasMore && (
         <div className="flex justify-center mt-4">

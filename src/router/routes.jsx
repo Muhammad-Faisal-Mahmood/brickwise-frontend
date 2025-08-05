@@ -26,6 +26,7 @@ import ContactUs from "../pages/visitor/ContactUs";
 import ContactMessages from "../pages/admin/ContactMessages";
 import BlacklistedDealers from "../pages/admin/BlacklistedDealers";
 import RoleRedirector from "./RoleRedirector";
+import VisitorOnlyWrapper from "./VisitorOnlyWrapper";
 
 const AppRoutes = () => {
   return (
@@ -33,7 +34,14 @@ const AppRoutes = () => {
       <ScrollToTop>
         <RoleRedirector />
         <Routes>
-          <Route path="/" element={<VisitorLayout />}>
+          <Route
+            path="/"
+            element={
+              <VisitorOnlyWrapper>
+                <VisitorLayout />
+              </VisitorOnlyWrapper>
+            }
+          >
             <Route index element={<Home />} />
             <Route path="listings" element={<Listing />} />
             <Route path="listings/:id" element={<ListingDetails />} />
@@ -48,7 +56,6 @@ const AppRoutes = () => {
                 </ProtectedRouteWrapper>
               }
             />
-
             <Route
               path="inquires"
               element={
@@ -57,7 +64,6 @@ const AppRoutes = () => {
                 </ProtectedRouteWrapper>
               }
             />
-
             <Route path="cost-estimator" element={<HomeCostEstimator />} />
           </Route>
           <Route path="/register-dealer" element={<DealerRegister />} />

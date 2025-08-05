@@ -94,7 +94,7 @@ const Listing = () => {
         </p>
       </div>
 
-      <PropertyGrid filteredProperties={properties} />
+      <PropertyGrid filteredProperties={properties} loading={loading} />
 
       {hasMore && (
         <div className="flex justify-center mt-4">

@@ -8,18 +8,20 @@ export default function RoleRedirector() {
   const location = useLocation();
 
   useEffect(() => {
-    // Only redirect if the user is on the root path ("/")
-    // This prevents the redirect from happening when the user is already
-    // navigating within their dashboard.
-    if (location.pathname === "/") {
+    const path = location.pathname;
+
+    const isAdminPath = path.startsWith("/admin");
+    const isDealerPath = path.startsWith("/dealer-dashboard");
+
+    if (!isAdminPath && !isDealerPath) {
       if (user?.role === "DEALER") {
         navigate("/dealer-dashboard/created-properties");
       } else if (user?.role === "ADMIN") {
         navigate("/admin/users");
       }
+      // USER → do nothing
     }
-    // USER → do nothing
   }, [user, navigate, location]);
 
-  return null; // nothing to render
+  return null;
 }

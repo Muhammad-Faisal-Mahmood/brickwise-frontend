@@ -9,12 +9,14 @@ import {
   Card,
   Typography,
   Collapse,
+  Select,
 } from "antd";
 import React, { useState } from "react";
 import { FilterOutlined, ClearOutlined } from "@ant-design/icons";
 
 const { Text } = Typography;
 const { Panel } = Collapse;
+const { Option } = Select;
 
 const Filters = ({ handleFilterChange, applyFilters, resetFilters }) => {
   const [priceRange, setPriceRange] = useState([0, 1000000]);
@@ -25,6 +27,7 @@ const Filters = ({ handleFilterChange, applyFilters, resetFilters }) => {
     bedrooms: null,
     bathrooms: null,
     floors: null,
+    purpose: null,
   });
   const [checkboxStates, setCheckboxStates] = useState({
     newConstruction: null,
@@ -36,6 +39,11 @@ const Filters = ({ handleFilterChange, applyFilters, resetFilters }) => {
   const handleInputChange = (field, value) => {
     setInputs((prev) => ({ ...prev, [field]: value }));
     handleFilterChange(field, value || null);
+  };
+
+  const handlePurposeChange = (value) => {
+    setInputs((prev) => ({ ...prev, purpose: value }));
+    handleFilterChange("purpose", value);
   };
 
   const handlePriceChange = (value) => {
@@ -66,6 +74,7 @@ const Filters = ({ handleFilterChange, applyFilters, resetFilters }) => {
       bedrooms: null,
       bathrooms: null,
       floors: null,
+      purpose: null,
     });
     setCheckboxStates({
       newConstruction: null,
@@ -159,6 +168,21 @@ const Filters = ({ handleFilterChange, applyFilters, resetFilters }) => {
                   placeholder="Enter type"
                   onChange={(e) => handleInputChange("type", e.target.value)}
                 />
+              </Col>
+              <Col xs={24} sm={12} md={8} lg={6}>
+                <Text className="text-sm font-medium text-primary-heading dark:text-dark-heading">
+                  Purpose
+                </Text>
+                <Select
+                  value={inputs.purpose}
+                  placeholder="Select purpose"
+                  onChange={handlePurposeChange}
+                  allowClear
+                  className="w-full"
+                >
+                  <Option value="sale">Sale</Option>
+                  <Option value="rent">Rent</Option>
+                </Select>
               </Col>
               <Col xs={24} sm={8} md={8} lg={4}>
                 <Text className="text-sm font-medium text-primary-heading dark:text-dark-heading">

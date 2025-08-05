@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import axiosInstance from "../api/axiosInstance";
 
-const useDealerRegistries = (page, size, keyword) => {
+const useDealerRegistries = (page, size, keyword, refreshKey) => {
   const [registries, setRegistries] = useState([]);
   const [totalElements, setTotalElements] = useState(0);
   const [loading, setLoading] = useState(false);
@@ -26,7 +26,7 @@ const useDealerRegistries = (page, size, keyword) => {
       }
     };
     fetchRegistries();
-  }, [page, size, keyword]);
+  }, [page, size, keyword, refreshKey]);
 
   return { registries, totalElements, loading, error };
 };
