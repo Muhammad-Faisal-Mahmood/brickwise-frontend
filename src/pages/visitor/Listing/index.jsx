@@ -28,6 +28,8 @@ const Listing = () => {
     purpose: null,
   });
 
+  console.log("filters in listing", localFilters);
+
   const handleFilterChange = (field, value) => {
     setLocalFilters((prev) => ({ ...prev, [field]: value }));
   };

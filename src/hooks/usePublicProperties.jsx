@@ -21,7 +21,6 @@ const usePublicProperties = () => {
   );
 
   const fetchProperties = async (reset = false) => {
-    // Only fetch if not already loading to prevent duplicate requests
     if (loading) return;
 
     dispatch(setLoading(true));
@@ -84,12 +83,35 @@ const usePublicProperties = () => {
 
   // Apply filters (reset page)
   const applyFilters = (newFilters) => {
-    // Merge new filters with existing ones
-    const updatedFilters = { ...filters, ...newFilters };
+    // Base filters with all values set to null (or default values like "")
+    const baseFilters = {
+      location: null,
+      type: null,
+      minPrice: null,
+      maxPrice: null,
+      minSize: null,
+      maxSize: null,
+      bedrooms: null,
+      bathrooms: null,
+      floors: null,
+      newConstruction: null,
+      petFriendly: null,
+      swimmingPool: null,
+      searchQuery: "",
+      purpose: null,
+    };
+
+    // Override base with new filters
+    const updatedFilters = {
+      ...baseFilters,
+      ...newFilters,
+    };
+
+    console.log("updated filters", updatedFilters);
 
     // Prevent unnecessary API calls if filters haven't actually changed
     if (JSON.stringify(filters) !== JSON.stringify(updatedFilters)) {
-      dispatch(setPropertyFilters(newFilters)); // This will trigger useEffect
+      dispatch(setPropertyFilters(updatedFilters));
     }
   };
 

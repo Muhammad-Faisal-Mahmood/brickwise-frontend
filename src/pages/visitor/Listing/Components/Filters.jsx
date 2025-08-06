@@ -38,7 +38,7 @@ const Filters = ({ handleFilterChange, applyFilters, resetFilters }) => {
   // Handlers
   const handleInputChange = (field, value) => {
     setInputs((prev) => ({ ...prev, [field]: value }));
-    handleFilterChange(field, value || null);
+    handleFilterChange(field, value);
   };
 
   const handlePurposeChange = (value) => {
