@@ -114,7 +114,12 @@ const PropertyTablePage = ({ apiEndpoint, showDealerColumn }) => {
       key: "swimmingPool",
       render: (v) => (v ? "Yes" : "No"),
     },
-    { title: "Views", dataIndex: "views", key: "views" },
+    {
+      title: "Views",
+      dataIndex: "views",
+      key: "views",
+      render: (v) => (!v ? 0 : v),
+    },
     { title: "Status", dataIndex: "status", key: "status" },
     {
       title: "Listed",

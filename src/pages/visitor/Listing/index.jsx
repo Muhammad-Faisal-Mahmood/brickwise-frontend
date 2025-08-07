@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { Button } from "antd";
 import SearchBar from "../../../components/SearchBar";
@@ -11,6 +11,12 @@ const Listing = () => {
   const dispatch = useDispatch();
   const { properties, hasMore, loading, loadMore, applyFilters, filters } =
     usePublicProperties();
+
+  useEffect(() => {
+    return () => {
+      dispatch(resetFilters()); // Optional: also clear Redux state
+    };
+  }, []);
 
   const [localFilters, setLocalFilters] = useState({
     location: null,
@@ -27,8 +33,6 @@ const Listing = () => {
     swimmingPool: null,
     purpose: null,
   });
-
-  console.log("filters in listing", localFilters);
 
   const handleFilterChange = (field, value) => {
     setLocalFilters((prev) => ({ ...prev, [field]: value }));

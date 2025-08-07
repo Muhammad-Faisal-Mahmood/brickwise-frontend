@@ -37,9 +37,9 @@ function App() {
             aria-label="Loading Spinner"
             data-testid="loader"
           />
-          <p className="mt-4 text-gray-600 dark:text-gray-300">
+          {/* <p className="mt-4 text-gray-600 dark:text-gray-300">
             Loading application...
-          </p>
+          </p> */}
         </div>
       </div>
     );

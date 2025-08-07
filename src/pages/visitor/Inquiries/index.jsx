@@ -73,7 +73,7 @@ const Inquiries = () => {
   return (
     <motion.div className="flex flex-col md:flex-row gap-4 p-4">
       {/* Inbox */}
-      <Card className="md:w-1/3 bg-white dark:bg-dark-accent shadow rounded-2xl">
+      <Card className="md:w-1/3 h-fit bg-white dark:bg-dark-accent shadow rounded-2xl">
         <Title
           level={4}
           className="!text-primary-heading dark:!text-dark-heading"
@@ -86,7 +86,7 @@ const Inquiries = () => {
           <List
             itemLayout="horizontal"
             dataSource={processedInquiries}
-            className="py-3"
+            className="py-3 "
             split={false}
             renderItem={(inquiry) => (
               <List.Item
@@ -108,7 +108,7 @@ const Inquiries = () => {
                   title={
                     <div className="flex items-center gap-2">
                       <span className="text-primary-heading dark:text-dark-heading">
-                        Property ID: {inquiry.propertyId}
+                        Property name: {property?.title}
                       </span>
                       {inquiry.unreadCount > 0 &&
                         !readInquiryIds.has(inquiry.id) && (
@@ -141,35 +141,36 @@ const Inquiries = () => {
             {/* Dealer & Property cards */}
             <div className="flex flex-col md:flex-row gap-4">
               {/* Dealer card */}
-              <Card
-                loading={dealerLoading}
-                title={
-                  <span className="text-primary-heading dark:text-dark-heading">
-                    Dealer Info
-                  </span>
-                }
-                className="flex-1 bg-white dark:bg-dark-accent shadow rounded-2xl"
-              >
-                {dealer ? (
-                  <div className="flex items-center gap-3">
-                    <Avatar src={dealer.profilePhoto} size={50}>
-                      {dealer.name?.charAt(0)}
-                    </Avatar>
-                    <div>
-                      <Text className="text-primary-heading dark:text-dark-heading font-medium">
-                        {dealer.name}
-                      </Text>
-                      <br />
-                      <Text type="secondary">{dealer.email}</Text>
-                      <br />
-                      <Text type="secondary">{dealer.phone}</Text>
+              {user?.role != "DEALER" && (
+                <Card
+                  loading={dealerLoading}
+                  title={
+                    <span className="text-primary-heading dark:text-dark-heading">
+                      Dealer Info
+                    </span>
+                  }
+                  className="flex-1 bg-white dark:bg-dark-accent shadow rounded-2xl"
+                >
+                  {dealer ? (
+                    <div className="flex items-center gap-3">
+                      <Avatar src={dealer?.profileImageUrl} size={50}>
+                        {dealer.name?.charAt(0)}
+                      </Avatar>
+                      <div>
+                        <Text className="text-primary-heading dark:text-dark-heading font-medium">
+                          {dealer.name}
+                        </Text>
+                        <br />
+                        <Text type="secondary">{dealer.email}</Text>
+                        <br />
+                        <Text type="secondary">{dealer.phone}</Text>
+                      </div>
                     </div>
-                  </div>
-                ) : (
-                  <Text type="secondary">Dealer not found</Text>
-                )}
-              </Card>
-
+                  ) : (
+                    <Text type="secondary">Dealer not found</Text>
+                  )}
+                </Card>
+              )}
               {/* Property card */}
               <Card
                 loading={propertyLoading}
@@ -190,7 +191,9 @@ const Inquiries = () => {
                       <br />
                       <Text type="secondary">{property.location}</Text>
                       <br />
-                      <Text type="secondary">Price: ${property.price}</Text>
+                      <Text type="secondary">
+                        Price: PKR {property.price.toLocaleString("en-PK")}
+                      </Text>
                     </div>
                   </div>
                 ) : (

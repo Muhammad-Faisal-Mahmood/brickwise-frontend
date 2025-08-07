@@ -90,7 +90,7 @@ const PropertyCard = ({
             <img
               alt="Property"
               src={imgUrl}
-              className="w-full h-full object-cover"
+              className="w-full h-full object-cover object-center"
             />
           </div>
         }
@@ -103,13 +103,21 @@ const PropertyCard = ({
         {/* Extra info */}
         <div className="mt-2 space-y-1 text-primary-subHeading dark:text-dark-subHeading text-sm">
           <div>
-            <strong>Location:</strong> {location}
+            <strong className="dark:text-[#7e7e7e] text-primary-subHeading">
+              Location:
+            </strong>{" "}
+            {location}
           </div>
           <div>
-            <strong>{purpose === "rent" ? "Rent:" : "Price:"}</strong> {price}
+            <strong className="dark:text-[#7e7e7e] text-primary-subHeading">
+              {purpose === "rent" ? "Rent:" : "Price:"}
+            </strong>{" "}
+            {price}
           </div>
           <div>
-            <strong>Dealer:</strong>{" "}
+            <strong className="dark:text-[#7e7e7e] text-primary-subHeading">
+              Dealer:
+            </strong>{" "}
             <span className="capitalize">{dealerName}</span>
           </div>
         </div>
