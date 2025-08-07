@@ -35,9 +35,9 @@ const DealerFilters = ({ handleFilterChange, applyFilters, filters }) => {
           min={0}
         />
 
-        <Button type="primary" onClick={applyFilters}>
+        {/* <Button type="primary" onClick={applyFilters}>
           Apply Filters
-        </Button>
+        </Button> */}
       </div>
     </div>
   );

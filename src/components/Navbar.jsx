@@ -1,6 +1,6 @@
 import { Avatar, Button, Drawer, Dropdown, Menu, message, Tooltip } from "antd";
 import { motion } from "framer-motion";
-import { MenuOutlined, UserOutlined } from "@ant-design/icons";
+import { BulbFilled, MenuOutlined, UserOutlined } from "@ant-design/icons";
 import { useDispatch, useSelector } from "react-redux";
 import { toggleDarkMode, selectDarkMode } from "../redux/features/themeSlice";
 import { BulbOutlined } from "@ant-design/icons";
@@ -152,12 +152,21 @@ const Navbar = ({ navItems, drawerVisible, setDrawerVisible }) => {
         {auth.isAuthenticated && <FavoriteDropdown />}
 
         <Tooltip placement="top" title={"Theme switch"} arrow={true}>
-          <Button
-            shape="circle"
-            icon={<BulbOutlined />}
-            onClick={() => dispatch(toggleDarkMode())}
-            title="Toggle Dark Mode"
-          />
+          {darkMode ? (
+            <Button
+              shape="circle"
+              icon={<BulbFilled />}
+              onClick={() => dispatch(toggleDarkMode())}
+              title="Toggle Dark Mode"
+            />
+          ) : (
+            <Button
+              shape="circle"
+              icon={<BulbOutlined />}
+              onClick={() => dispatch(toggleDarkMode())}
+              title="Toggle Dark Mode"
+            />
+          )}
         </Tooltip>
       </div>
 

@@ -66,7 +66,7 @@ const ContactUs = () => {
               <MessageOutlined className="text-3xl text-white" />
             </div>
 
-            <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold bg-gradient-to-r from-gray-900 to-gray-600 dark:from-white dark:to-gray-300 bg-clip-text text-transparent leading-tight">
+            <h1 className="text-4xl md:text-5xl lg:text-5xl xl:text-6xl font-bold bg-gradient-to-r from-gray-900 to-gray-600 dark:from-white dark:to-gray-300 bg-clip-text text-transparent leading-tight">
               Let's Start a
               <br />
               <span className="bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
@@ -96,7 +96,7 @@ const ContactUs = () => {
                   <EnvironmentOutlined className="text-green-600 dark:text-green-400 text-lg" />
                 ),
                 title: "Visit Us",
-                text: "Ichra Bazaar, Lahore, Punjab",
+                text: "Ichra Bazaar, Lahore.",
                 bg: "bg-green-100 dark:bg-green-900",
               },
               {

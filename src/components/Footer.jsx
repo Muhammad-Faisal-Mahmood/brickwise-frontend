@@ -21,18 +21,18 @@ const Footer = () => {
 
         {/* Quick Links */}
         <div className="flex gap-6">
-          <a href="#" className="text-gray-300 hover:text-white transition">
+          {/* <a href="#" className="text-gray-300 hover:text-white transition">
             About
-          </a>
+          </a> */}
           <Link
             to={"/contact-us"}
             className="text-gray-300 hover:text-white transition"
           >
-            Contact
+            Contact Us
           </Link>
-          <a href="#" className="text-gray-300 hover:text-white transition">
+          {/* <a href="#" className="text-gray-300 hover:text-white transition">
             Privacy Policy
-          </a>
+          </a> */}
         </div>
 
         {/* Social Icons */}
@@ -53,9 +53,12 @@ const Footer = () => {
       </div>
 
       {/* Bottom line */}
-      <div className="text-center text-gray-500 text-sm mt-6">
-        &copy; {new Date().getFullYear()} Brickwise Pvt Ltd. All rights
-        reserved.
+      <div className="flex items-center justify-center  text-gray-500 text-sm mt-6">
+        <h1 className="ml-0 md:ml-20">
+          {" "}
+          &copy; {new Date().getFullYear()} Brickwise Pvt Ltd. All rights
+          reserved.
+        </h1>
       </div>
     </footer>
   );

@@ -19,7 +19,7 @@ const Dealers = () => {
 
   return (
     <>
-      <SearchBar onSearch={handleSearch} placeholder="Search Dealers..." />
+      <SearchBar onSearch={handleSearch} placeholder="Search dealers by name" />
 
       <DealerFilters
         handleFilterChange={handleFilterChange}

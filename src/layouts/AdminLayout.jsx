@@ -12,6 +12,7 @@ import {
   HomeOutlined,
   LockOutlined,
   MessageOutlined,
+  BulbFilled,
 } from "@ant-design/icons";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
@@ -180,12 +181,21 @@ const AdminLayout = () => {
           </div>
           <div className="flex items-center gap-3">
             <Tooltip placement="bottom" title="Toggle Dark Mode">
-              <Button
-                shape="circle"
-                size={isMobile ? "small" : "middle"}
-                icon={<BulbOutlined />}
-                onClick={() => dispatch(toggleDarkMode())}
-              />
+              {darkMode ? (
+                <Button
+                  shape="circle"
+                  icon={<BulbFilled />}
+                  onClick={() => dispatch(toggleDarkMode())}
+                  title="Toggle Dark Mode"
+                />
+              ) : (
+                <Button
+                  shape="circle"
+                  icon={<BulbOutlined />}
+                  onClick={() => dispatch(toggleDarkMode())}
+                  title="Toggle Dark Mode"
+                />
+              )}
             </Tooltip>
             <Dropdown overlay={menu} placement="bottomRight" arrow>
               <Avatar
