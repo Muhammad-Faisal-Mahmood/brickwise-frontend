@@ -16,6 +16,7 @@ import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { toggleDarkMode, selectDarkMode } from "../redux/features/themeSlice";
 import { useAuth } from "../hooks/useAuth";
+import axiosInstance from "../api/axiosInstance";
 
 const { Header, Sider, Content } = Layout;
 
@@ -29,6 +30,21 @@ const DealerLayout = () => {
   const [collapsed, setCollapsed] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
   const { logout } = useAuth(messageApi);
+  const [dealer, setDealer] = useState(null);
+
+  useEffect(() => {
+    const fetchDealerProfile = async () => {
+      try {
+        const res = await axiosInstance.get(`/dealer/profile/${user.dealerId}`);
+        setDealer(res.data?.data);
+      } catch (error) {
+        console.error("Failed to fetch dealer profile:", error);
+        setDealer(null);
+      }
+    };
+
+    fetchDealerProfile();
+  }, []);
 
   // Check if screen is mobile size
   useEffect(() => {
@@ -175,6 +191,7 @@ const DealerLayout = () => {
             </Tooltip>
             <Dropdown overlay={menu} placement="bottomRight" arrow>
               <Avatar
+                src={dealer?.profileImageUrl}
                 size={isMobile ? "small" : "default"}
                 style={{ cursor: "pointer" }}
               >

@@ -3,7 +3,7 @@ import { Form, InputNumber, Select, Switch } from "antd";
 
 const PropertyFeaturesForm = () => (
   <>
-    <div className="flex flex-col lg:flex-row gap-4">
+    <div className="flex flex-col md:flex-row gap-4">
       <Form.Item label="Bedrooms" name="bedrooms" className="flex-1">
         <InputNumber min={0} className="w-full" />
       </Form.Item>
@@ -15,19 +15,19 @@ const PropertyFeaturesForm = () => (
       </Form.Item>
     </div>
 
-    <div className="flex flex-col lg:flex-row gap-4">
+    <div className="flex flex-col md:flex-row gap-4">
       <Form.Item label="Size (sq ft)" name="size" className="flex-1">
         <InputNumber min={0} className="w-full" />
       </Form.Item>
-      <Form.Item label="Status" name="status" className="flex-1">
+      {/* <Form.Item label="Status" name="status" className="flex-1">
         <Select>
           <Select.Option value="available">Available</Select.Option>
           <Select.Option value="sold">Sold</Select.Option>
         </Select>
-      </Form.Item>
+      </Form.Item> */}
     </div>
 
-    <div className="flex flex-col lg:flex-row gap-4">
+    <div className="flex flex-col md:flex-row gap-4">
       <Form.Item
         label="New Construction"
         name="newConstruction"

@@ -29,7 +29,7 @@ const CreateProperty = () => {
     formData.append("price", values.price);
     formData.append("type", values.type);
     formData.append("purpose", values.purpose);
-    formData.append("status", values.status);
+    formData.append("status", "available");
 
     if (values.bedrooms !== undefined)
       formData.append("bedrooms", values.bedrooms);
@@ -56,7 +56,7 @@ const CreateProperty = () => {
       });
       messageApi.success("Property created successfully");
       form.resetFields();
-      setMainImage([]);
+      setMainImage(null);
       setMedia([]);
     } catch (error) {
       console.error(error);

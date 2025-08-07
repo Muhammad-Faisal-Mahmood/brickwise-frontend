@@ -4,7 +4,7 @@ const { TextArea } = Input;
 
 const PropertyDetailsForm = () => (
   <>
-    <div className="flex flex-col lg:flex-row gap-4">
+    <div className="flex flex-col md:flex-row gap-4">
       <Form.Item
         label="Title"
         name="title"
@@ -32,7 +32,7 @@ const PropertyDetailsForm = () => (
       <TextArea rows={3} />
     </Form.Item>
 
-    <div className="flex flex-col lg:flex-row gap-4">
+    <div className="flex flex-col md:flex-row gap-4">
       <Form.Item
         label="Price"
         name="price"
