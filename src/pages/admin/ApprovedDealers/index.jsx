@@ -1,5 +1,17 @@
 import React, { useState } from "react";
-import { Table, Tag, Spin, Alert, Pagination, Button, message } from "antd";
+import {
+  Table,
+  Tag,
+  Spin,
+  Alert,
+  Pagination,
+  Button,
+  message,
+  Modal,
+  Rate,
+  Card,
+  Image,
+} from "antd";
 import useApprovedDealers from "../../../hooks/useApprovedDealers";
 import SearchBar from "../../../components/SearchBar";
 import axiosInstance from "../../../api/axiosInstance";
@@ -8,14 +20,21 @@ import Papa from "papaparse";
 const Index = () => {
   const [page, setPage] = useState(1);
   const [keyword, setKeyword] = useState("");
-  const [refreshKey, setRefreshKey] = useState(0); // 🆕 force refetch after action
+  const [refreshKey, setRefreshKey] = useState(0);
   const pageSize = 10;
+
+  // Modal states
+  const [reviewsModalVisible, setReviewsModalVisible] = useState(false);
+  const [propertiesModalVisible, setPropertiesModalVisible] = useState(false);
+  const [selectedReviews, setSelectedReviews] = useState([]);
+  const [selectedProperties, setSelectedProperties] = useState([]);
+  const [selectedDealerName, setSelectedDealerName] = useState("");
 
   const { dealers, totalElements, loading, error } = useApprovedDealers(
     page - 1,
     pageSize,
     keyword,
-    refreshKey // pass as dependency to refetch
+    refreshKey
   );
 
   const [messageApi, contextHolder] = message.useMessage();
@@ -25,17 +44,28 @@ const Index = () => {
     setKeyword(value);
   };
 
-  // 🆕 Blacklist dealer handler
   const handleBlacklist = async (userId) => {
     try {
       await axiosInstance.post(`/admin/blacklist-dealer/${userId}`);
       messageApi.success("Dealer blacklisted successfully");
-      setRefreshKey((prev) => prev + 1); // trigger refresh
+      setRefreshKey((prev) => prev + 1);
     } catch (error) {
       messageApi.error(
         error.response?.data?.message || "Failed to blacklist dealer"
       );
     }
+  };
+
+  const handleViewReviews = (reviews, dealerName) => {
+    setSelectedReviews(reviews);
+    setSelectedDealerName(dealerName);
+    setReviewsModalVisible(true);
+  };
+
+  const handleViewProperties = (properties, dealerName) => {
+    setSelectedProperties(properties);
+    setSelectedDealerName(dealerName);
+    setPropertiesModalVisible(true);
   };
 
   const handleExportCSV = () => {
@@ -86,10 +116,23 @@ const Index = () => {
       render: (rating) => rating?.toFixed(1) || "-",
     },
     {
-      title: "Total Reviews",
-      dataIndex: "reviewsCount",
-      key: "reviewsCount",
-      render: (count) => count || 0,
+      title: "Reviews",
+      dataIndex: "reviews",
+      key: "reviews",
+      render: (reviews, record) => (
+        <div className="flex items-center gap-2">
+          <span>{reviews?.length || 0}</span>
+          {reviews && reviews.length > 0 && (
+            <Button
+              size="small"
+              type="link"
+              onClick={() => handleViewReviews(reviews, record.name)}
+            >
+              View
+            </Button>
+          )}
+        </div>
+      ),
     },
     {
       title: "Role",
@@ -98,12 +141,24 @@ const Index = () => {
       render: (role) => <Tag color="green">{role}</Tag>,
     },
     {
-      title: "Properties Created",
+      title: "Properties",
       dataIndex: "createdProperties",
       key: "createdProperties",
-      render: (props) => props.length,
+      render: (properties, record) => (
+        <div className="flex items-center gap-2">
+          <span>{properties?.length || 0}</span>
+          {properties && properties.length > 0 && (
+            <Button
+              size="small"
+              type="link"
+              onClick={() => handleViewProperties(properties, record.name)}
+            >
+              View
+            </Button>
+          )}
+        </div>
+      ),
     },
-    // 🆕 Actions column
     {
       title: "Actions",
       key: "actions",
@@ -145,7 +200,7 @@ const Index = () => {
         </div>
       ) : (
         <>
-          <div className="overflow-x-auto hide-scrollbar ">
+          <div className="overflow-x-auto hide-scrollbar">
             <Table
               rowKey="userId"
               columns={columns}
@@ -165,6 +220,117 @@ const Index = () => {
           </div>
         </>
       )}
+
+      {/* Reviews Modal */}
+      <Modal
+        title={`Reviews for ${selectedDealerName}`}
+        open={reviewsModalVisible}
+        onCancel={() => setReviewsModalVisible(false)}
+        footer={null}
+        width={600}
+        bodyStyle={{ maxHeight: "60vh", overflowY: "auto" }}
+      >
+        <div className="space-y-4">
+          {selectedReviews.map((review) => (
+            <Card key={review.id} size="small" className="border">
+              <div className="flex justify-between items-start mb-2">
+                <div>
+                  <div className="font-medium">{review.reviewerName}</div>
+                  <Rate disabled defaultValue={review.rating} />
+                </div>
+                <div className="text-xs text-gray-500">
+                  {new Date(review.createdAt).toLocaleDateString()}
+                </div>
+              </div>
+              <p className="text-gray-700 mt-2">{review.comment}</p>
+            </Card>
+          ))}
+          {selectedReviews.length === 0 && (
+            <div className="text-center py-8 text-gray-500">
+              No reviews available
+            </div>
+          )}
+        </div>
+      </Modal>
+
+      {/* Properties Modal */}
+      <Modal
+        title={`Properties by ${selectedDealerName}`}
+        open={propertiesModalVisible}
+        onCancel={() => setPropertiesModalVisible(false)}
+        footer={null}
+        width={800}
+        bodyStyle={{ maxHeight: "70vh", overflowY: "auto" }}
+      >
+        <div className="space-y-4">
+          {selectedProperties.map((property) => (
+            <Card key={property.id} size="small" className="border">
+              <div className="flex gap-4">
+                {property.mainImage && (
+                  <div className="flex-shrink-0">
+                    <Image
+                      width={120}
+                      height={80}
+                      src={property.mainImage}
+                      alt={property.title}
+                      className="rounded object-cover"
+                      fallback="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMIAAADDCAYAAADQvc6UAAABRWlDQ1BJQ0MgUHJvZmlsZQAAKJFjYGASSSwoyGFhYGDIzSspCnJ3UoiIjFJgf8LAwSDCIMogwMCcmFxc4BgQ4ANUwgCjUcG3awyMIPqyLsis7PPOq3QdDFcvjV3jOD1boQVTPQrgSkktTgbSf4A4LbmgqISBgTEFyFYuLykAsTuAbJEioKOA7DkgdjqEvQHEToKwj4DVhAQ5A9k3gGyB5IxEoBmML4BsnSQk8XQkNtReEOBxcfXxUQg1Mjc0dyHgXNJBSWpFCYh2zi+oLMpMzyhRcASGUqqCZ16yno6CkYGRAQMDKMwhqj/fAIcloxgHQqxAjIHBEugw5sUIsSQpBobtQPdLciLEVJYzMPBHMDBsayhILEqEO4DxG0txmrERhM29nYGBddr//5/DGRjYNRkY/l7////39v///y4Dmn+LgeHANwDrkl1AuO+pmgAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAwqADAAQAAAABAAAAwwAAAAD9b/HnAAAHlklEQVR4Ae3dP3Ik1xkE8A8HfQyMABaHYDHKTRyALfqhIhAhtyACkQx5OExYBZBZlSBBhhJU6lI6IWn"
+                    />
+                  </div>
+                )}
+                <div className="flex-1">
+                  <div className="flex justify-between items-start">
+                    <div>
+                      <h4 className="font-semibold text-lg">
+                        {property.title}
+                      </h4>
+                      <p className="text-gray-600 text-sm mb-2">
+                        {property.description}
+                      </p>
+                    </div>
+                    <div className="text-right">
+                      <div className="font-bold text-green-600">
+                        PKR {property.price?.toLocaleString()}
+                      </div>
+                      <Tag color={property.listed ? "green" : "red"}>
+                        {property.listed ? "Listed" : "Unlisted"}
+                      </Tag>
+                    </div>
+                  </div>
+
+                  <div className="grid grid-cols-2 gap-2 text-sm text-gray-600 mt-2">
+                    <div>
+                      <strong>Location:</strong> {property.location}
+                    </div>
+                    <div>
+                      <strong>Address:</strong> {property.address}
+                    </div>
+                    <div>
+                      <strong>Type:</strong> {property.type}
+                    </div>
+                    <div>
+                      <strong>Purpose:</strong> {property.purpose}
+                    </div>
+                  </div>
+
+                  {property.media && property.media.length > 0 && (
+                    <div className="mt-2">
+                      <span className="text-xs text-blue-600">
+                        {property.media.length} media file(s) available
+                      </span>
+                    </div>
+                  )}
+                </div>
+              </div>
+            </Card>
+          ))}
+          {selectedProperties.length === 0 && (
+            <div className="text-center py-8 text-gray-500">
+              No properties created yet
+            </div>
+          )}
+        </div>
+      </Modal>
     </div>
   );
 };

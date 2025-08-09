@@ -1,4 +1,3 @@
-// src/components/PropertyTablePage.jsx
 import {
   Table,
   Spin,
@@ -9,6 +8,8 @@ import {
   message,
   Select,
   Input,
+  Modal,
+  Carousel,
 } from "antd";
 import { useState } from "react";
 import PropertyEditModal from "../pages/admin/Properties/components/PropertyEditModal";
@@ -18,7 +19,7 @@ import {
   updateProperty,
 } from "../hooks/usePropertyActions";
 import usePaginatedProperties from "../hooks/usePaginatedProperties";
-import Papa from "papaparse"; // <-- CSV export
+import Papa from "papaparse";
 
 const { Option } = Select;
 
@@ -33,6 +34,8 @@ const PropertyTablePage = ({ apiEndpoint, showDealerColumn }) => {
   const [refreshKey, setRefreshKey] = useState(0);
   const [selectedProperty, setSelectedProperty] = useState(null);
   const [editModalVisible, setEditModalVisible] = useState(false);
+  const [mediaModalVisible, setMediaModalVisible] = useState(false);
+  const [mediaItems, setMediaItems] = useState([]);
   const [messageApi, contextHolder] = message.useMessage();
 
   const { properties, totalElements, loading, error } = usePaginatedProperties(
@@ -68,11 +71,6 @@ const PropertyTablePage = ({ apiEndpoint, showDealerColumn }) => {
   const handleSearch = (value) => {
     setPage(1);
     setKeyword(value);
-  };
-
-  const handleFilterChange = (value) => {
-    setPage(1);
-    setListedFilter(value === "all" ? null : value === "listed");
   };
 
   const exportToCSV = () => {
@@ -179,15 +177,35 @@ const PropertyTablePage = ({ apiEndpoint, showDealerColumn }) => {
       title: "Media",
       dataIndex: "media",
       key: "media",
-      render: (media) => media?.length,
+      render: (media) =>
+        media?.length > 0 ? (
+          <Button
+            size="small"
+            onClick={() => {
+              setMediaItems(media);
+              setMediaModalVisible(true);
+            }}
+          >
+            View Media
+          </Button>
+        ) : (
+          "No Media"
+        ),
     },
-    {
+    apiEndpoint !== "/properties/admin" && {
       title: "Actions",
       key: "actions",
       render: (_, record) => (
         <Button
           size="small"
           onClick={() => {
+            if (!record.listed) {
+              messageApi.open({
+                type: "info",
+                content: "unlisted properties can't be edited",
+              });
+              return;
+            }
             setSelectedProperty(record);
             setEditModalVisible(true);
           }}
@@ -298,6 +316,61 @@ const PropertyTablePage = ({ apiEndpoint, showDealerColumn }) => {
         property={selectedProperty}
         onUpdated={() => setRefreshKey((prev) => prev + 1)}
       />
+
+      <Modal
+        open={mediaModalVisible}
+        title="Property Media"
+        footer={null}
+        onCancel={() => setMediaModalVisible(false)}
+        width="90%"
+        style={{ maxWidth: "800px" }}
+        bodyStyle={{
+          padding: 0,
+          height: "500px",
+          overflow: "auto",
+        }}
+      >
+        <div style={{ height: "500px" }}>
+          <Carousel
+            // autoplaySpeed={1000}
+            autoplay
+            arrows={true}
+            style={{
+              height: "100%",
+              paddingRight: "25px",
+              paddingLeft: "25px",
+            }}
+          >
+            {mediaItems.map((url, index) => (
+              <div
+                key={index}
+                style={{
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "center",
+                  width: "100%",
+                  height: "500px",
+                  padding: "10px",
+                  boxSizing: "border-box",
+                  backgroundColor: "#f5f5f5",
+                }}
+              >
+                <img
+                  src={url}
+                  alt={`Property media ${index + 1}`}
+                  className="object-scale-down object-center"
+                  style={{
+                    maxWidth: "100%",
+                    maxHeight: "100%",
+                    borderRadius: "8px",
+                    boxShadow: "0 2px 8px rgba(0, 0, 0, 0.1)",
+                  }}
+                />
+              </div>
+            ))}
+          </Carousel>
+        </div>
+      </Modal>
     </div>
   );
 };
