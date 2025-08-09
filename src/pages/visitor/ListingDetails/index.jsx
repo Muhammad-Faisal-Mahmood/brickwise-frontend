@@ -5,6 +5,7 @@ import PropertyInfo from "./components/PropertyInfo";
 import LocationMap from "../../../components/LocationMap";
 import usePropertyDetails from "../../../hooks/usePropertyDetails";
 import usePropertyView from "../../../hooks/usePropertyView";
+import AIPropertyAnalysis from "./components/AiPropertyAnalysis";
 
 const ListingDetails = () => {
   const { id } = useParams();
@@ -76,6 +77,10 @@ const ListingDetails = () => {
             <LocationMap address={property.address} />
           </div>
         </div>
+      </div>
+
+      <div className="container mx-auto p-4">
+        <AIPropertyAnalysis property={property} />
       </div>
     </>
   );
