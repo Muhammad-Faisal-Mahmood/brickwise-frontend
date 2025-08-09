@@ -24,7 +24,7 @@ const DocumentsUpload = ({ file, setFile }) => {
     <Form.Item
       label={
         <span className="text-primary-subHeading dark:text-dark-subHeading">
-          Supporting Documents (Optional)
+          Supporting Document (Optional)
         </span>
       }
     >

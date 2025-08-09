@@ -16,6 +16,7 @@ import {
 } from "../../../hooks/useApproveRejectDealer";
 import SearchBar from "../../../components/SearchBar";
 import DealerRegistryModal from "./components/DealerRegistryModal";
+import Papa from "papaparse";
 
 const DealerRegistriesPage = () => {
   const [page, setPage] = useState(1);
@@ -127,14 +128,46 @@ const DealerRegistriesPage = () => {
     },
   ];
 
+  const handleExportCSV = () => {
+    if (!registries || registries.length === 0) {
+      messageApi.warning("No data to export");
+      return;
+    }
+
+    const dataForCSV = registries.map((r) => ({
+      Name: r.name || "-",
+      Email: r.email || "-",
+      Phone: r.phone ? `${r.phone}` : "-", // ✅ Force Excel to treat as text
+      City: r.city || "-",
+      "Social Links": r.socialLinks || "-",
+      Portfolio: r.portfolio || "-",
+      Documents: r.documents || "-",
+      Status: r.status || "-",
+    }));
+
+    const csv = Papa.unparse(dataForCSV);
+    const blob = new Blob([csv], { type: "text/csv;charset=utf-8;" });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement("a");
+    link.href = url;
+    link.setAttribute("download", "dealer_registries.csv");
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  };
   return (
     <div className="rounded-xl p-4 shadow-sm  border dark:border-neutral-800 border-neutral-200/80">
       {/* show message context */}
       {contextHolder}
 
-      <h2 className="text-xl font-semibold mb-4 text-primary-heading dark:text-dark-heading">
-        Dealer Applications
-      </h2>
+      <div className="flex justify-between items-center mb-4">
+        <h2 className="text-xl font-semibold text-primary-heading dark:text-dark-heading">
+          Dealer Applications
+        </h2>
+        <Button type="primary" onClick={handleExportCSV}>
+          Export CSV
+        </Button>
+      </div>
       <SearchBar
         alignment={"left"}
         onSearch={handleSearch}

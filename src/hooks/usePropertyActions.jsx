@@ -5,7 +5,8 @@ export const unlistProperty = async (id) => {
 };
 
 export const listProperty = async (id) => {
-  await propertyAxios.post(`/properties/${id}/list`);
+  const data = await propertyAxios.post(`/properties/${id}/list`);
+  return data?.data?.message;
 };
 
 export const updateProperty = async (id, formDataToSend) => {

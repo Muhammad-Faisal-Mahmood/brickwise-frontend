@@ -3,6 +3,7 @@ import { Table, Tag, Spin, Alert, Pagination, Button, message } from "antd";
 import useApprovedDealers from "../../../hooks/useApprovedDealers";
 import SearchBar from "../../../components/SearchBar";
 import axiosInstance from "../../../api/axiosInstance";
+import Papa from "papaparse";
 
 const Index = () => {
   const [page, setPage] = useState(1);
@@ -35,6 +36,32 @@ const Index = () => {
         error.response?.data?.message || "Failed to blacklist dealer"
       );
     }
+  };
+
+  const handleExportCSV = () => {
+    if (!dealers || dealers.length === 0) return;
+
+    const exportData = dealers.map((dealer) => ({
+      ID: dealer.profileId,
+      Name: dealer.name || "-",
+      Email: dealer.email,
+      City: dealer.city || "-",
+      Rating: dealer.rating?.toFixed(1) || "-",
+      "Total Reviews": dealer.reviewsCount || 0,
+      Role: dealer.role,
+      "Properties Created": dealer.createdProperties?.length || 0,
+    }));
+
+    const csv = Papa.unparse(exportData);
+    const blob = new Blob([csv], { type: "text/csv;charset=utf-8;" });
+    const url = URL.createObjectURL(blob);
+
+    const link = document.createElement("a");
+    link.href = url;
+    link.setAttribute("download", "approved_dealers.csv");
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
   };
 
   const columns = [
@@ -95,9 +122,14 @@ const Index = () => {
   return (
     <div className="rounded-xl shadow-sm border p-4 dark:border-neutral-800 border-neutral-200/80">
       {contextHolder}
-      <h2 className="text-xl font-semibold mb-4 text-primary-heading dark:text-dark-heading">
-        Approved Dealers
-      </h2>
+      <div className="flex justify-between items-center mb-4">
+        <h2 className="text-xl font-semibold text-primary-heading dark:text-dark-heading">
+          Approved Dealers
+        </h2>
+        <Button type="primary" onClick={handleExportCSV}>
+          Export CSV
+        </Button>
+      </div>
 
       <SearchBar
         onSearch={handleSearch}

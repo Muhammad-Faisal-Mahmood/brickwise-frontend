@@ -78,6 +78,9 @@ const AdminLayout = () => {
 
   const menu = (
     <Menu>
+      <Menu.Item key="profile" onClick={() => navigate("/admin/profile")}>
+        Profile
+      </Menu.Item>
       <Menu.Item key="logout" onClick={handleLogout}>
         Logout
       </Menu.Item>
@@ -121,12 +124,6 @@ const AdminLayout = () => {
       icon: <MessageOutlined />,
       label: <Link to="/admin/contact-messages">Contact Messages</Link>,
       title: "Contact Messages",
-    },
-    {
-      key: "/admin/profile",
-      icon: <IdcardOutlined />,
-      label: <Link to="/admin/profile">Profile</Link>,
-      title: "Profile",
     },
   ];
 

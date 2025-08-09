@@ -149,11 +149,11 @@ const Filters = ({ handleFilterChange, applyFilters, resetFilters }) => {
             <Row gutter={[16, 16]}>
               <Col xs={24} sm={12} md={8} lg={6}>
                 <Text className="text-sm font-medium text-primary-heading dark:text-dark-heading">
-                  Location
+                  City
                 </Text>
                 <Input
                   value={inputs.location}
-                  placeholder="Enter location"
+                  placeholder="Enter city"
                   onChange={(e) =>
                     handleInputChange("location", e.target.value)
                   }
@@ -161,11 +161,11 @@ const Filters = ({ handleFilterChange, applyFilters, resetFilters }) => {
               </Col>
               <Col xs={24} sm={12} md={8} lg={6}>
                 <Text className="text-sm font-medium text-primary-heading dark:text-dark-heading">
-                  Property Type
+                  Property Category
                 </Text>
                 <Input
                   value={inputs.type}
-                  placeholder="Enter type"
+                  placeholder="Eg: house, apartment, etc"
                   onChange={(e) => handleInputChange("type", e.target.value)}
                 />
               </Col>
@@ -175,12 +175,12 @@ const Filters = ({ handleFilterChange, applyFilters, resetFilters }) => {
                 </Text>
                 <Select
                   value={inputs.purpose}
-                  placeholder="Select purpose"
+                  placeholder="Buy/Rent"
                   onChange={handlePurposeChange}
                   allowClear
                   className="w-full"
                 >
-                  <Option value="sale">Sale</Option>
+                  <Option value="sale">Buy</Option>
                   <Option value="rent">Rent</Option>
                 </Select>
               </Col>

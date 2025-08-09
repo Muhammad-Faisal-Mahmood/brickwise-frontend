@@ -92,6 +92,12 @@ const DealerLayout = () => {
 
   const menu = (
     <Menu>
+      <Menu.Item
+        key="profile"
+        onClick={() => navigate("/dealer-dashboard/profile")}
+      >
+        Profile
+      </Menu.Item>
       <Menu.Item key="logout" onClick={handleLogout}>
         Logout
       </Menu.Item>
@@ -100,12 +106,6 @@ const DealerLayout = () => {
 
   // Menu items configuration
   const menuItems = [
-    {
-      key: "/dealer-dashboard/profile",
-      icon: <IdcardOutlined />,
-      label: <Link to="/dealer-dashboard/profile">Profile</Link>,
-      title: "Profile",
-    },
     {
       key: "/dealer-dashboard/created-properties",
 

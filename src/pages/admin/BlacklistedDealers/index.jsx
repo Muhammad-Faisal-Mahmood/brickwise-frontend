@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { Table, Spin, Alert, Pagination, Button, message, Input } from "antd";
 import useAdminBlacklistedDealers from "../../../hooks/useAdminBlacklistedDealers";
 import axiosInstance from "../../../api/axiosInstance";
+import Papa from "papaparse";
 
 const { Search } = Input;
 
@@ -31,6 +32,34 @@ const BlacklistedDealers = () => {
     }
   };
 
+  // CSV Export Function
+  const handleExportCSV = () => {
+    if (!dealers || dealers.length === 0) {
+      messageApi.warning("No data to export");
+      return;
+    }
+
+    const csvData = dealers.map((dealer) => ({
+      ID: dealer.id || "-",
+      Name: dealer.name || "-",
+      Email: dealer.email || "-",
+      Phone: dealer.phone ? `'${dealer.phone}` : "-", // prevent Excel scientific notation
+      City: dealer.city || "-",
+      Status: dealer.status || "-",
+    }));
+
+    const csv = Papa.unparse(csvData);
+    const blob = new Blob([csv], { type: "text/csv;charset=utf-8;" });
+    const url = URL.createObjectURL(blob);
+
+    const link = document.createElement("a");
+    link.href = url;
+    link.setAttribute("download", "blacklisted_dealers.csv");
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  };
+
   const columns = [
     { title: "ID", dataIndex: "id", key: "id" },
     { title: "Name", dataIndex: "name", key: "name" },
@@ -49,9 +78,14 @@ const BlacklistedDealers = () => {
   return (
     <div className="rounded-xl shadow-sm border p-4 dark:border-neutral-800 border-neutral-200/80">
       {contextHolder}
-      <h2 className="text-xl font-semibold mb-4 text-primary-heading dark:text-dark-heading">
-        Blacklisted Dealers
-      </h2>
+      <div className="flex justify-between items-center mb-4">
+        <h2 className="text-xl font-semibold text-primary-heading dark:text-dark-heading">
+          Blacklisted Dealers
+        </h2>
+        <Button type="primary" onClick={handleExportCSV}>
+          Export CSV
+        </Button>
+      </div>
       <div className="mb-4">
         <Search
           placeholder="Search by name or email"

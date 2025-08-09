@@ -18,6 +18,7 @@ import {
   updateProperty,
 } from "../hooks/usePropertyActions";
 import usePaginatedProperties from "../hooks/usePaginatedProperties";
+import Papa from "papaparse"; // <-- CSV export
 
 const { Option } = Select;
 
@@ -59,7 +60,8 @@ const PropertyTablePage = ({ apiEndpoint, showDealerColumn }) => {
       }
       setRefreshKey((prev) => prev + 1);
     } catch (e) {
-      messageApi.error("Failed to update listing status");
+      messageApi.error(e?.response?.data?.message);
+      console.log(e);
     }
   };
 
@@ -71,6 +73,47 @@ const PropertyTablePage = ({ apiEndpoint, showDealerColumn }) => {
   const handleFilterChange = (value) => {
     setPage(1);
     setListedFilter(value === "all" ? null : value === "listed");
+  };
+
+  const exportToCSV = () => {
+    if (!properties || properties.length === 0) {
+      messageApi.warning("No data to export");
+      return;
+    }
+
+    const csvData = properties.map((p) => ({
+      ID: p.id,
+      Title: p.title,
+      Description: p.description,
+      Dealer: showDealerColumn ? p.dealerName : "",
+      City: p.location,
+      Address: p.address,
+      Price: p.price,
+      Type: p.type,
+      Purpose: p.purpose,
+      Bedrooms: p.bedrooms,
+      Bathrooms: p.bathrooms,
+      Floors: p.floors,
+      SizeSqFt: p.size,
+      NewConstruction: p.newConstruction ? "Yes" : "No",
+      PetFriendly: p.petFriendly ? "Yes" : "No",
+      SwimmingPool: p.swimmingPool ? "Yes" : "No",
+      Views: p.views || 0,
+      Status: p.status,
+      Listed: p.listed ? "Yes" : "No",
+      MediaCount: p.media?.length || 0,
+    }));
+
+    const csv = Papa.unparse(csvData);
+    const blob = new Blob([csv], { type: "text/csv;charset=utf-8;" });
+    const url = URL.createObjectURL(blob);
+
+    const link = document.createElement("a");
+    link.setAttribute("href", url);
+    link.setAttribute("download", "properties.csv");
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
   };
 
   const columns = [
@@ -158,9 +201,14 @@ const PropertyTablePage = ({ apiEndpoint, showDealerColumn }) => {
   return (
     <div className="rounded-xl shadow p-4">
       {contextHolder}
-      <h2 className="text-xl font-semibold mb-4 text-primary-heading dark:text-dark-heading">
-        Properties
-      </h2>
+      <div className="flex justify-between items-center mb-4">
+        <h2 className="text-xl font-semibold text-primary-heading dark:text-dark-heading">
+          Properties
+        </h2>
+        <Button type="primary" onClick={exportToCSV}>
+          Export to CSV
+        </Button>
+      </div>
 
       <div className="flex flex-col md:flex-row gap-2 mb-4">
         <Input.Search
@@ -168,7 +216,6 @@ const PropertyTablePage = ({ apiEndpoint, showDealerColumn }) => {
           onSearch={handleSearch}
           allowClear
         />
-
         <Select
           defaultValue="all"
           onChange={(value) => {
@@ -181,7 +228,6 @@ const PropertyTablePage = ({ apiEndpoint, showDealerColumn }) => {
           <Option value="listed">Listed</Option>
           <Option value="unlisted">Unlisted</Option>
         </Select>
-
         <Select
           defaultValue="all"
           onChange={(value) => {
@@ -194,7 +240,6 @@ const PropertyTablePage = ({ apiEndpoint, showDealerColumn }) => {
           <Option value="available">Available</Option>
           <Option value="sold">Sold</Option>
         </Select>
-
         <Select
           defaultValue="all"
           onChange={(value) => {
@@ -207,7 +252,6 @@ const PropertyTablePage = ({ apiEndpoint, showDealerColumn }) => {
           <Option value="true">New Construction</Option>
           <Option value="false">Old Construction</Option>
         </Select>
-
         <div className="flex items-center gap-1">
           <span className="w-full">Most Viewed</span>
           <Switch
@@ -219,6 +263,7 @@ const PropertyTablePage = ({ apiEndpoint, showDealerColumn }) => {
           />
         </div>
       </div>
+
       {error && <Alert message={error} type="error" className="mb-4" />}
       {loading ? (
         <div className="flex justify-center p-10">
