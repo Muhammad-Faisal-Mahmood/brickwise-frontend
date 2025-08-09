@@ -42,7 +42,7 @@ const ListingDetails = () => {
           {property.title}
         </h1>
       </div>
-      <div className="container mx-auto p-4 flex flex-col lg:flex-row gap-6">
+      <div className="p-4 flex flex-col lg:flex-row gap-6">
         {/* Left: media + info */}
         <div className="lg:w-7/12">
           <MediaCarousel
@@ -79,7 +79,7 @@ const ListingDetails = () => {
         </div>
       </div>
 
-      <div className="container mx-auto p-4">
+      <div className="mt-20">
         <AIPropertyAnalysis property={property} />
       </div>
     </>
