@@ -20,6 +20,7 @@ import {
 } from "../hooks/usePropertyActions";
 import usePaginatedProperties from "../hooks/usePaginatedProperties";
 import Papa from "papaparse";
+import MediaCarousel from "./MediaCarousel";
 
 const { Option } = Select;
 
@@ -331,44 +332,7 @@ const PropertyTablePage = ({ apiEndpoint, showDealerColumn }) => {
         }}
       >
         <div style={{ height: "500px" }}>
-          <Carousel
-            // autoplaySpeed={1000}
-            autoplay
-            arrows={true}
-            style={{
-              height: "100%",
-              paddingRight: "25px",
-              paddingLeft: "25px",
-            }}
-          >
-            {mediaItems.map((url, index) => (
-              <div
-                key={index}
-                style={{
-                  display: "flex",
-                  justifyContent: "center",
-                  alignItems: "center",
-                  width: "100%",
-                  height: "500px",
-                  padding: "10px",
-                  boxSizing: "border-box",
-                  backgroundColor: "#f5f5f5",
-                }}
-              >
-                <img
-                  src={url}
-                  alt={`Property media ${index + 1}`}
-                  className="object-scale-down object-center"
-                  style={{
-                    maxWidth: "100%",
-                    maxHeight: "100%",
-                    borderRadius: "8px",
-                    boxShadow: "0 2px 8px rgba(0, 0, 0, 0.1)",
-                  }}
-                />
-              </div>
-            ))}
-          </Carousel>
+          <MediaCarousel media={mediaItems} />
         </div>
       </Modal>
     </div>
